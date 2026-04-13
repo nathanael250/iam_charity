@@ -75,18 +75,18 @@ const Home = () => {
 
             <section className="bg-[#f8f8f6] py-10">
               <div className="container">
-                <div className="impact-totals">
-                  <div className="total-card">
-                    <div className="total-num">1,240+</div>
-                    <div className="total-label">Families housed since 2018</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">1,240+</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Families housed since 2018</div>
                   </div>
-                  <div className="total-card">
-                    <div className="total-num">98%</div>
-                    <div className="total-label">Still in stable housing after 2 years</div>
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">98%</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Still in stable housing after 2 years</div>
                   </div>
-                  <div className="total-card">
-                    <div className="total-num">34</div>
-                    <div className="total-label">Communities transformed</div>
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">34</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Communities transformed</div>
                   </div>
                 </div>
               </div>
@@ -247,18 +247,18 @@ const Home = () => {
 
             <section className="bg-[#f8f8f6] py-12">
               <div className="container">
-                <div className="impact-totals">
-                  <div className="total-card">
-                    <div className="total-num">1,240+</div>
-                    <div className="total-label">Families housed since 2018</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">1,240+</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Families housed since 2018</div>
                   </div>
-                  <div className="total-card">
-                    <div className="total-num">98%</div>
-                    <div className="total-label">Still in stable housing after 2 years</div>
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">98%</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Still in stable housing after 2 years</div>
                   </div>
-                  <div className="total-card">
-                    <div className="total-num">34</div>
-                    <div className="total-label">Communities transformed</div>
+                  <div className="bg-[#1a1a3e] rounded-xl p-6 text-center">
+                    <div className="text-[32px] font-bold text-[#d4af37]">34</div>
+                    <div className="text-[13px] text-[#aaa] mt-1">Communities transformed</div>
                   </div>
                 </div>
               </div>

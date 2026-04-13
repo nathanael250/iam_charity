@@ -1,3 +1,6 @@
+import beforeImg from "../assets/imact stories/before.png";
+import afterImg from "../assets/imact stories/after.png";
+
 const stories = [
   {
     initials: "MF",
@@ -6,10 +9,8 @@ const stories = [
     year: "Housed in 2023",
     quote:
       "We were eight people in two rooms with a leaking roof. Today my children have their own beds, a study corner, and they're doing better in school. I never imagined this was possible for us.",
-    beforeImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD5v9x8teeQbmY2RqUqoQgVkf_FrbsofIFNUEi5UdKxHQCHvGjdqpcIfb2WOg1HiWLnizC_XYZCDODgma42HVb0pmPZWYjC7cueIFvAM_8E1SGvjYF9cAYrOrZFdo73vlH6Vu5h42S0M9ITn-HHSZ0LUXt4MaVIdzYg67zOqNkPdY1Lxt3KmeXmmOX-wWuJ5mfUVFCz7P0vKxDkpiCGWMI8ugQb-V-ADuu6HphD728nDjiY1_4kU6BbAxaNB99JVYk8stCZitAu2Vq9",
-    afterImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBhtl7y7spToOK2UMfdX9XlFiNiF-PECVfB68M47FuZOiMDddrkqLaFGgnIpwBiYEgjROcbZBu-pDeZX3bemeK_SOqJVnKhb-c1-NkXtZ0heR508tE4zpWBpmD8HuhvaRYClNYptcBoIDCzeqslc3zcQJMaqWYgmZxsqdJG8926WtymPtV9JpbTNv-tF-5ut46061HJkLXy4aGaM9dgKxr2mwhOz01DFgDzLH78xGSRb6uK9SC41gO5_VAZcKbMhqpCHbPla-ZFNO-4",
+    beforeImage: beforeImg,
+    afterImage: afterImg,
     beforeColor: "#5a4a3a",
     afterColor: "#3a5a7a",
     beforeDesc: "Dilapidated 2-room structure, cracked walls, no sanitation",
@@ -28,10 +29,8 @@ const stories = [
     year: "Housed in 2024",
     quote:
       "My husband passed away and I was left with four children and no shelter. iam charity rebuilt our home and also helped me find work. We are not just surviving — we are living.",
-    beforeImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAhFlSiotiZTVG6dsGRJdgDzfDhc__zxAHhnTGWnNWvhA4CX7AmgepUL_U6Zj8M-y1j17d--O5FmGJTHDhkbB1dSQl7RuQH6l3DnkBtffWl0MEnXaNjEnEETs8jyZe60VWMkKCrK5t4xGqtlVakn94QUm0D5Z3Wi0aJ72Odlkykcda3vjV8mhQcNskS3vn6GNgk1NwCOqWFmjvlddF7rnpBazu5Zdakbjfy4kwy9ie2J2BL95TP-QKfrs4DlYeMuJErF0216IeK89d-",
-    afterImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBTnA2y1HNBCKZ7A6KTK_viPLx5jd4qPebd_BMrXLBcbVUjAbChN4qZ01mQHL3KnLp8a1mCzr6fVE3pyTdSWLyGCIlpiQVBvjtTPtEKLBMdKKtLD37isMYUbOERAgNKI3GRBxfPdBtJXIKQAMUBbSI8jve7tTHWe_22DDw2xDPhJZHZgcMYSsrRtyak41UFh5PnBV34eogGZsDne8bjcL_jyURXh-kNRIhwM4d4Qfk388cbED-1nxhjFOPZmZaeUYNon_CmoTMiKW6p",
+    beforeImage: beforeImg,
+    afterImage: afterImg,
     beforeColor: "#6b4a2a",
     afterColor: "#2a5a4a",
     beforeDesc: "Condemned mud structure, no electricity, flood-prone land",
@@ -50,10 +49,8 @@ const stories = [
     year: "Housed in 2022",
     quote:
       "Three years later, my son just started university. That would have been unthinkable before we had a stable place to live. A home is everything. It is the beginning of all things.",
-    beforeImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC9I8ksrZ8G8VbJbyXtSJXaqo5uEVOUuXhWN4wJ9F9hs-WIJtuv2gI-5xX7IoQBTXle-t-DjR1OkrqMsRNuAsWa862hFClRUcpqUljEiAEYWWzj-cAQl2UbxUn1ueSI3tT5mBGy-SwiS-3Qr_jfXblSRWZquJ6nadTrpbj1kteQQk6dk4VfpDl2QSjrd4T8yqzsAF3ivPjB7mglys0szwlkXB8O5ZXcRSpSB563I4f3zCRcxC6G4sT8TO3BEOit412ATAuY1ClSy-ru",
-    afterImage:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAy4GXAI787v1HuECZt_a44UKUFQjXYa5f6Rue6I4HT-ICD93UWK6hBS-RcwjOqFtTU0k8DLWpuj2tgdq6NLfbHAmxT7M4V6H-ppb94i-tOfssAz3zJn53DN9H1wJg_Kd64xUSRcPYqR16I7v1aHH4aeatnVnI8RePLHdXDU0QFM6JTFS7LXBH4cvv3Ob6DYEJW4n7V6bWIMzUVf0GL80J7gLa_Z2k6NbsWjnPymPFdWLMxQrSS7x75L4lE3AjYYuf11ZLvH5D0Ev3E",
+    beforeImage: beforeImg,
+    afterImage: afterImg,
     beforeColor: "#4a3a5a",
     afterColor: "#3a6a5a",
     beforeDesc: "Rented single room shared with two other families, no privacy",
@@ -69,26 +66,32 @@ const stories = [
 
 const ImpactStories = () => {
   return (
-    <section className="impact-stories section">
+    <section className="bg-[#f8f8f6] py-20">
       <div className="container">
-        <div className="section-top">
-          <div className="badge">OUR IMPACT</div>
-          <h2 className="section-title">Impact Stories</h2>
-          <p className="section-sub">
+        <div className="text-center mb-16">
+          <div className="inline-block bg-[#f0e8c8] text-[#7a5e10] text-[11px] font-semibold tracking-[0.15em] px-3.5 py-1 rounded border border-[#d4af37] mb-4">
+            OUR IMPACT
+          </div>
+          <h2 className="text-[38px] font-bold text-[#1a1a3e] mb-3 leading-tight">Impact Stories</h2>
+          <p className="text-base text-[#666] max-w-[480px] mx-auto leading-[1.7]">
             Real families, real transformations. Your support builds safe homes and lasting stability.
           </p>
         </div>
 
         {stories.map((story) => (
-          <div key={story.name} className="story-card">
-            <div className="before-after">
-              <div className="img-panel" style={{ background: "#f0ebe3" }}>
-                <div className="img-panel-label label-before">BEFORE</div>
-                <img className="img-panel-img" src={story.beforeImage} alt={`${story.name} before`} />
-                <div className="img-panel-desc">{story.beforeDesc}</div>
+          <div key={story.name} className="bg-white rounded-2xl border border-[#e0d9c8] overflow-hidden w-full mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_4px_1fr]">
+              <div className="relative h-80 overflow-hidden" style={{ background: "#f0ebe3" }}>
+                <div className="absolute top-3.5 left-3.5 z-10 text-[11px] font-bold tracking-[0.15em] px-3 py-1 rounded-full bg-[#1a1a3e] text-white">
+                  BEFORE
+                </div>
+                <img className="w-full h-full object-cover block" src={story.beforeImage} alt={`${story.name} before`} />
+                <div className="absolute bottom-3.5 left-3.5 right-3.5 text-xs text-[#666] leading-snug">
+                  {story.beforeDesc}
+                </div>
               </div>
-              <div className="divider-bar">
-                <div className="divider-icon">
+              <div className="hidden md:flex w-1 bg-[#b8962e] relative z-10 items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-[#b8962e] border-[3px] border-white flex items-center justify-center">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path
                       d="M3 6h6M6 3l3 3-3 3"
@@ -100,60 +103,72 @@ const ImpactStories = () => {
                   </svg>
                 </div>
               </div>
-              <div className="img-panel" style={{ background: "#e8f0e8" }}>
-                <div className="img-panel-label label-after">AFTER</div>
-                <img className="img-panel-img" src={story.afterImage} alt={`${story.name} after`} />
-                <div className="img-panel-desc">{story.afterDesc}</div>
+              <div className="relative h-80 overflow-hidden" style={{ background: "#e8f0e8" }}>
+                <div className="absolute top-3.5 left-3.5 z-10 text-[11px] font-bold tracking-[0.15em] px-3 py-1 rounded-full bg-[#b8962e] text-white">
+                  AFTER
+                </div>
+                <img className="w-full h-full object-cover block" src={story.afterImage} alt={`${story.name} after`} />
+                <div className="absolute bottom-3.5 left-3.5 right-3.5 text-xs text-[#666] leading-snug">
+                  {story.afterDesc}
+                </div>
               </div>
             </div>
 
-            <div className="story-body">
+            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div>
-                <div className="story-family">
-                  <div className="family-avatar">{story.initials}</div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#1a1a3e] flex items-center justify-center text-[15px] font-bold text-[#d4af37] shrink-0">
+                    {story.initials}
+                  </div>
                   <div>
-                    <div className="family-name">{story.name}</div>
-                    <div className="family-location">{story.location}</div>
-                    <div className="year-badge">{story.year}</div>
+                    <div className="text-[15px] font-bold text-[#1a1a3e]">{story.name}</div>
+                    <div className="text-xs text-[#999]">{story.location}</div>
+                    <div className="inline-block mt-1 bg-[#f0e8c8] text-[#7a5e10] text-[11px] px-2 py-0.5 rounded font-semibold">
+                      {story.year}
+                    </div>
                   </div>
                 </div>
-                <div className="stars">★★★★★</div>
-                <div className="quote-block">
-                  <p className="quote-text">"{story.quote}"</p>
+                <div className="text-[#b8962e] text-sm tracking-[0.2em] mb-2">★★★★★</div>
+                <div className="border-l-[3px] border-[#b8962e] pl-4 mb-5">
+                  <p className="text-[15px] text-[#333] leading-relaxed italic">"{story.quote}"</p>
                 </div>
               </div>
-              <div className="story-stats">
+              <div className="flex flex-col gap-3">
                 {story.stats.map((stat) => (
-                  <div key={stat.label} className="stat-row">
-                    <div>
-                      <div className="stat-label-s">{stat.label}</div>
+                  <div
+                    key={stat.label}
+                    className="bg-[#f8f8f6] rounded-lg px-4 py-3.5 flex justify-between items-center border border-[#e8e0cc] gap-4"
+                  >
+                    <div className="flex-1">
+                      <div className="text-xs text-[#888]">{stat.label}</div>
                       {stat.bar ? (
-                        <div className="progress-bg">
+                        <div className="bg-[#eee] rounded-full h-1.5 mt-1.5">
                           <div
-                            className="progress-fill"
+                            className="h-1.5 rounded-full"
                             style={{ width: `${stat.bar}%`, background: stat.gold ? "#b8962e" : "#1a1a3e" }}
                           />
                         </div>
                       ) : null}
                     </div>
-                    <div className={`stat-val ${stat.gold ? "gold" : ""}`}>{stat.val}</div>
+                    <div className={`text-[15px] font-bold ${stat.gold ? "text-[#b8962e]" : "text-[#1a1a3e]"}`}>
+                      {stat.val}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="impact-footer">
-              <p className="footer-quote-small">
+            <div className="bg-[#ECE7EB] px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <p className="text-[13px] text-[#aaa] max-w-[520px] leading-snug">
                 Every story here represents a real family whose life changed permanently. Your donation makes the next
                 story possible.
               </p>
-              <button className="footer-cta" type="button">
+              <button className="bg-[#b8962e] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold whitespace-nowrap" type="button">
                 View More ↗
               </button>
             </div>
           </div>
         ))}
-
       </div>
     </section>
   );
