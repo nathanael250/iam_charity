@@ -1,0 +1,366 @@
+import MobileBottomNav from "../components/MobileBottomNav";
+import TopNav from "../components/TopNav";
+import Footer from "../components/Footer";
+import ImpactStories from "../components/ImpactStories";
+import worldMapDots from "../assets/world-map-dots.svg";
+
+const Home = () => {
+  return (
+    <>
+      <TopNav />
+
+      <div className="md:hidden">
+        <div className="bg-surface text-on-surface">
+          <main className="pt-16">
+            <section className="relative min-h-[795px] flex items-center bg-white overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none">
+                <div
+                  className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-50"
+                  style={{ backgroundImage: `url(${worldMapDots})` }}
+                />
+              </div>
+              <div className="container relative z-10">
+                <div className="max-w-3xl">
+                  <h1 className="text-6xl md:text-8xl font-extrabold text-[#1B0E3D] leading-none tracking-tighter mb-8">
+                    Building Homes, <br />
+                    <span className="text-tertiary-container">Restoring Hope.</span>
+                  </h1>
+                  <p className="text-[#1B0E3D]/80 text-xl md:text-2xl mb-10 max-w-xl leading-relaxed">
+                    We don&apos;t just build structures; we architect foundations for human flourishing. Join us in our mission
+                    to provide permanent shelter for those who need it most.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <button className="bg-tertiary-container text-on-tertiary-container px-10 py-4 rounded-md font-bold text-lg hover:scale-[1.02] transition-all shadow-[0_20px_40px_rgba(27,14,61,0.06)]">
+                      Donate Now
+                    </button>
+                    <button className="border border-primary-container/30 text-primary-container px-10 py-4 rounded-md font-bold text-lg hover:bg-surface-container-low transition-all">
+                      Our Process
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute bottom-12 right-6 hidden lg:block max-w-sm">
+                <div className="glass-card p-8 rounded-xl shadow-[0_20px_40px_rgba(27,14,61,0.06)] border border-white/20">
+                  <span className="label-md text-primary-container font-bold mb-2 block tracking-widest uppercase">
+                    Latest Milestone
+                  </span>
+                  <h3 className="text-2xl font-bold text-primary-container mb-4 tracking-tight">Village No. 12 Completed</h3>
+                  <p className="text-on-surface-variant mb-6 text-sm leading-relaxed">
+                    Last month, we handed over keys to 14 families in the Highlands region, providing secure housing for 56
+                    individuals.
+                  </p>
+                  <div className="flex -space-x-3">
+                    <img
+                      className="w-10 h-10 rounded-full border-2 border-white"
+                      data-alt="Portrait of a smiling woman"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqZ1lSx1V1R2wGOJXtwxCvePsfBMGVGN1RwZmfZ5nCfqM4ES6JpJoyagBCuMswzVDUgC2Ghqg7gzHfA_GbbQX3egCQEtlOVVRVNdHT0AX-daGxpgZu_6bUAgHiKQF-ijT2roiUbDNkhXx6bThKdDQRkOD4d-JESzpiIAURErSDFI9yqBxsjVCWqFd6cjohazv2Di_YFWrxBS5wSTQWGcoqRFsXuCjhWtmJYOidEwlAaA4D0CfE__PmpcZnN7Jhcg5YNjtWsWfCLMcD"
+                    />
+                    <img
+                      className="w-10 h-10 rounded-full border-2 border-white"
+                      data-alt="Portrait of a smiling man"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo5zXhVkHQR8DCDLH8BCGGOAzYlLBr8zkAM06SFeaXgTvv5kqLe1L8XfdiWP4SVQteu2pgzODJauywDQWB0fT2Z2X7BrlnKqSjr6T1UDxvRJ7z3TsOBqX-tg2EsmHoIsV9dWS1ZTUuNdipJBkp49ILeMSneBzGt93HzK2lzH9B7TpWJWTFVv1HzDBYpoLQDUewbNFPI4BWKwhEV5PsvRu645QdSn2UOfGfqLsSJr3fnNhEUhK4BlotA6nUkHLiJUVSF532trYUpGWX"
+                    />
+                    <img
+                      className="w-10 h-10 rounded-full border-2 border-white"
+                      data-alt="Portrait of a young woman"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeH3gr-8Wbiiu3ZQLbUEaGjA95Ys4jburb72tcSYvloO6N6vxx6p18I-JpUVRqhFZSIb8tPM4iT4uJlEw6nq1l9xmxqKnkEBNz6w939q0ur4NEJd_qpi0uKB-nMFNCZGxRx8BS9HakjN2GqMK0pX2CuEPDdmlyzXrKMcEcLxIJWGVG-QQhtEzqP5nLaSNFd0VO4ojx465w5lBF6IaGsfbLz6MwfXmZlrcyJRgg7P7SSfNRspDZF9HWljWD0mE2BM-vwFM0WOJra6l8"
+                    />
+                    <div className="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-[10px] font-bold border-2 border-white">
+                      +42
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="bg-[#f8f8f6] py-10">
+              <div className="container">
+                <div className="impact-totals">
+                  <div className="total-card">
+                    <div className="total-num">1,240+</div>
+                    <div className="total-label">Families housed since 2018</div>
+                  </div>
+                  <div className="total-card">
+                    <div className="total-num">98%</div>
+                    <div className="total-label">Still in stable housing after 2 years</div>
+                  </div>
+                  <div className="total-card">
+                    <div className="total-num">34</div>
+                    <div className="total-label">Communities transformed</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="py-24 bg-surface">
+              <div className="container">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                  <div>
+                    <span className="text-tertiary font-bold tracking-widest uppercase text-sm mb-4 block">
+                      Active Campaign
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-6 tracking-tighter leading-tight">
+                      Current Goal: The Grace Family Residence
+                    </h2>
+                    <p className="text-lg text-on-surface-variant mb-10 leading-relaxed">
+                      Following a devastating landslide, the Grace family lost everything. We are building a high-elevation
+                      resilient home that will stand for generations. Your contribution directly funds the materials for
+                      this specific site.
+                    </p>
+                    <div className="bg-surface-container-low p-8 rounded-xl border-l-4 border-tertiary-container">
+                      <div className="flex justify-between mb-4 items-end">
+                        <div>
+                          <span className="text-3xl font-black text-primary-container">$32,450</span>
+                          <span className="text-on-surface-variant ml-2">raised of $45,000</span>
+                        </div>
+                        <span className="text-tertiary font-bold">72% Funded</span>
+                      </div>
+                      <div className="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div className="h-full bg-tertiary-container w-[72%]"></div>
+                      </div>
+                      <div className="mt-6 flex gap-8">
+                        <div>
+                          <span className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+                            Days Left
+                          </span>
+                          <span className="text-xl font-bold text-primary">14</span>
+                        </div>
+                        <div>
+                          <span className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+                            Donors
+                          </span>
+                          <span className="text-xl font-bold text-primary">128</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <div className="rounded-xl overflow-hidden shadow-2xl">
+                      <img
+                        alt="Construction site"
+                        className="w-full aspect-[4/5] object-cover"
+                        data-alt="Cinematic shot of a modern timber frame house under construction at sunrise with golden light filtering through the structure"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5v9x8teeQbmY2RqUqoQgVkf_FrbsofIFNUEi5UdKxHQCHvGjdqpcIfb2WOg1HiWLnizC_XYZCDODgma42HVb0pmPZWYjC7cueIFvAM_8E1SGvjYF9cAYrOrZFdo73vlH6Vu5h42S0M9ITn-HHSZ0LUXt4MaVIdzYg67zOqNkPdY1Lxt3KmeXmmOX-wWuJ5mfUVFCz7P0vKxDkpiCGWMI8ugQb-V-ADuu6HphD728nDjiY1_4kU6BbAxaNB99JVYk8stCZitAu2Vq9"
+                      />
+                    </div>
+                    <div className="absolute -bottom-6 -left-6 bg-primary-container text-white p-8 rounded-xl max-w-[240px]">
+                      <span
+                        className="material-symbols-outlined text-tertiary-container text-4xl mb-4"
+                        style={{ fontVariationSettings: "'FILL' 1" }}
+                      >
+                        foundation
+                      </span>
+                      <p className="font-bold text-lg leading-tight">Foundation completed Jan 12th, 2024</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <ImpactStories />
+
+            <section className="py-24 bg-primary-container text-white overflow-hidden relative">
+              <div className="container relative z-10">
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-4xl md:text-6xl font-extrabold mb-8 tracking-tighter leading-tight">
+                    Ready to build something that lasts?
+                  </h2>
+                  <p className="text-on-primary-container text-xl mb-12 max-w-2xl mx-auto">
+                    Your monthly donation of just $25 can provide the materials for one square foot of a new home. Every
+                    inch counts toward a better future.
+                  </p>
+                  <div className="inline-flex flex-wrap justify-center gap-6">
+                    <button className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-xl hover:scale-105 transition-transform">
+                      Become a Monthly Partner
+                    </button>
+                    <button className="border border-white/40 text-white px-12 py-5 rounded-md font-bold text-xl hover:bg-white/10 transition-all">
+                      Make a One-Time Gift
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-tertiary-container/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-on-primary-fixed-variant/20 rounded-full blur-3xl -ml-48 -mb-48"></div>
+            </section>
+          </main>
+
+          <Footer />
+
+          <MobileBottomNav />
+        </div>
+      </div>
+
+      <div className="hidden md:block">
+        <div className="scroll-smooth bg-background text-on-background selection:bg-tertiary-container selection:text-on-tertiary-container">
+          <main className="pt-16">
+            <section className="relative min-h-[921px] flex items-center bg-white overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none">
+                <div
+                  className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-50"
+                  style={{ backgroundImage: `url(${worldMapDots})` }}
+                />
+              </div>
+              <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <div className="max-w-2xl">
+                  <span className="inline-block py-1 px-3 rounded bg-tertiary-container/20 text-tertiary-container font-bold text-sm tracking-[0.2em] mb-6 uppercase">
+                    Our Mission
+                  </span>
+                  <h2 className="text-6xl md:text-8xl font-black text-[#1B0E3D] leading-tight tracking-tighter mb-8">
+                    Building Homes, <br />
+                    <span className="text-tertiary-container">Restoring Hope</span>
+                  </h2>
+                  <p className="text-[#1B0E3D]/80 text-xl leading-relaxed mb-10 max-w-lg">
+                    We don&apos;t just build structures; we establish foundations for life. iam charity provides permanent
+                    architectural solutions for families in transition.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <button className="bg-tertiary-container text-on-tertiary-container px-8 py-4 rounded-md font-bold hover:scale-105 transition-all">
+                      Start Your Impact
+                    </button>
+                    <button className="border border-primary-container/30 text-primary-container px-8 py-4 rounded-md font-bold hover:bg-surface-container-low transition-all">
+                      View Our Blueprint
+                    </button>
+                  </div>
+                </div>
+                <div className="hidden lg:block relative">
+                  <div className="relative aspect-square max-w-[520px] w-full ml-auto">
+                    <div className="absolute inset-0 rounded-[28px] overflow-hidden shadow-2xl bg-white z-10 translate-x-8 -translate-y-8">
+                      <img
+                        className="w-full h-full object-cover"
+                        data-alt="Contemporary minimalist home exterior with large glass windows and warm interior lighting at dusk with high-end editorial feel"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy4GXAI787v1HuECZt_a44UKUFQjXYa5f6Rue6I4HT-ICD93UWK6hBS-RcwjOqFtTU0k8DLWpuj2tgdq6NLfbHAmxT7M4V6H-ppb94i-tOfssAz3zJn53DN9H1wJg_Kd64xUSRcPYqR16I7v1aHH4aeatnVnI8RePLHdXDU0QFM6JTFS7LXBH4cvv3Ob6DYEJW4n7V6bWIMzUVf0GL80J7gLa_Z2k6NbsWjnPymPFdWLMxQrSS7x75L4lE3AjYYuf11ZLvH5D0Ev3E"
+                        alt="Contemporary minimalist home"
+                      />
+                    </div>
+                    <div className="absolute inset-0 rounded-[28px] overflow-hidden shadow-[0_24px_48px_rgba(27,14,61,0.2)] border border-white bg-white z-20 -translate-x-8 translate-y-8">
+                      <img
+                        className="w-full h-full object-cover"
+                        data-alt="Happy family of four standing together in front of their new brightly lit home, showing genuine joy and eye contact"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhtl7y7spToOK2UMfdX9XlFiNiF-PECVfB68M47FuZOiMDddrkqLaFGgnIpwBiYEgjROcbZBu-pDeZX3bemeK_SOqJVnKhb-c1-NkXtZ0heR508tE4zpWBpmD8HuhvaRYClNYptcBoIDCzeqslc3zcQJMaqWYgmZxsqdJG8926WtymPtV9JpbTNv-tF-5ut46061HJkLXy4aGaM9dgKxr2mwhOz01DFgDzLH78xGSRb6uK9SC41gO5_VAZcKbMhqpCHbPla-ZFNO-4"
+                        alt="Family story"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="bg-[#f8f8f6] py-12">
+              <div className="container">
+                <div className="impact-totals">
+                  <div className="total-card">
+                    <div className="total-num">1,240+</div>
+                    <div className="total-label">Families housed since 2018</div>
+                  </div>
+                  <div className="total-card">
+                    <div className="total-num">98%</div>
+                    <div className="total-label">Still in stable housing after 2 years</div>
+                  </div>
+                  <div className="total-card">
+                    <div className="total-num">34</div>
+                    <div className="total-label">Communities transformed</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="py-24 bg-surface">
+              <div className="container">
+                <div className="grid lg:grid-cols-3 gap-16 items-start">
+                  <div className="lg:col-span-1">
+                    <h3 className="text-4xl font-bold text-primary tracking-tighter mb-4">Active Project</h3>
+                    <p className="text-on-surface-variant text-lg leading-relaxed mb-8">
+                      Join us in completing <span className="font-bold text-primary">2 houses for poor families in Muyumbu</span>.
+                      Every brick laid is a step toward stability.
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-tertiary-container">location_on</span>
+                        <span className="text-on-surface-variant font-medium">Kigali, Kabuga</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-tertiary-container">calendar_today</span>
+                        <span className="text-on-surface-variant font-medium">Completion: 10th Dec 2026</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lg:col-span-2 bg-surface-container-lowest p-8 md:p-12 rounded-2xl shadow-[0_40px_24px_0_rgba(27,14,61,0.04)]">
+                    <div className="flex justify-between items-end mb-6">
+                      <div>
+                        <span className="text-sm font-bold text-tertiary uppercase tracking-widest block mb-1">
+                          Fundraising Progress
+                        </span>
+                        <div className="text-5xl font-black text-primary">
+                          8,000,000 Rf<span className="text-xl font-medium text-on-surface-variant">10,000,000 Rf</span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-3xl font-black text-tertiary-container">80%</span>
+                        <span className="block text-xs font-bold text-on-surface-variant uppercase">Funded</span>
+                      </div>
+                    </div>
+                    <div className="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden mb-10">
+                      <div className="h-full bg-tertiary-container w-[70%] transition-all duration-1000"></div>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                      <div className="p-4 rounded-xl bg-surface-container-low">
+                        <span className="block text-2xl font-bold text-primary">412</span>
+                        <span className="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">Donors</span>
+                      </div>
+                      <div className="p-4 rounded-xl bg-surface-container-low">
+                        <span className="block text-2xl font-bold text-primary">12</span>
+                        <span className="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+                          Days Left
+                        </span>
+                      </div>
+                      <div className="p-4 rounded-xl bg-surface-container-low">
+                        <span className="block text-2xl font-bold text-primary">Phase 3</span>
+                        <span className="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+                          Construction
+                        </span>
+                      </div>
+                      <div className="p-4 rounded-xl bg-tertiary-container/10">
+                        <span className="block text-2xl font-bold text-tertiary-container">20,0000 Rf</span>
+                        <span className="text-xs font-bold text-tertiary uppercase tracking-tighter">Remaining</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <ImpactStories />
+
+            <section className="py-24 relative bg-primary-container text-center overflow-hidden">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-0 left-0 w-64 h-64 bg-tertiary-container rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-fixed-dim rounded-full blur-[150px] translate-x-1/2 translate-y-1/2"></div>
+              </div>
+              <div className="container relative z-10">
+                <h3 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter">
+                  Ready to lay the next stone?
+                </h3>
+                <p className="text-on-primary-fixed-variant text-xl mb-12 max-w-2xl mx-auto">
+                  Your contribution directly funds material costs and local labor. Join a community committed to
+                  architectural philanthropy.
+                </p>
+                <div className="flex flex-col md:flex-row justify-center gap-4">
+                  <button className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-black/20">
+                    Donate $50 Now
+                  </button>
+                  <button className="bg-white/10 text-white backdrop-blur-md px-12 py-5 rounded-md font-bold text-lg hover:bg-white/20 transition-all border border-white/20">
+                    Become a Monthly Partner
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <Footer />
+          </main>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Home;

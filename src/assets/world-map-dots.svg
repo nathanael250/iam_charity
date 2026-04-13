@@ -1,0 +1,25 @@
+<svg width="900" height="450" viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dot" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#1B0E3D" />
+    </pattern>
+    <mask id="continents">
+      <rect width="100%" height="100%" fill="black" />
+      <ellipse cx="170" cy="125" rx="120" ry="70" fill="white" />
+      <ellipse cx="90" cy="110" rx="60" ry="40" fill="white" />
+      <ellipse cx="250" cy="60" rx="40" ry="20" fill="white" />
+      <ellipse cx="230" cy="190" rx="35" ry="25" fill="white" />
+      <ellipse cx="230" cy="305" rx="60" ry="90" fill="white" />
+      <ellipse cx="420" cy="125" rx="55" ry="35" fill="white" />
+      <ellipse cx="380" cy="110" rx="20" ry="14" fill="white" />
+      <ellipse cx="450" cy="255" rx="75" ry="100" fill="white" />
+      <ellipse cx="515" cy="320" rx="18" ry="28" fill="white" />
+      <ellipse cx="520" cy="185" rx="45" ry="35" fill="white" />
+      <ellipse cx="640" cy="160" rx="170" ry="80" fill="white" />
+      <ellipse cx="700" cy="235" rx="60" ry="40" fill="white" />
+      <ellipse cx="770" cy="150" rx="22" ry="16" fill="white" />
+      <ellipse cx="760" cy="330" rx="60" ry="35" fill="white" />
+    </mask>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#dot)" mask="url(#continents)" opacity="0.28" />
+</svg>
