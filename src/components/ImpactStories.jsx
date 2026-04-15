@@ -4,8 +4,8 @@ import afterImg from "../assets/imact stories/after.png";
 const stories = [
   {
     initials: "MF",
-    name: "Mensah family",
-    location: "Accra, Ghana",
+    name: "Mukamana family",
+    location: "Gasabo District, Kigali",
     year: "Housed in 2023",
     quote:
       "We were eight people in two rooms with a leaking roof. Today my children have their own beds, a study corner, and they're doing better in school. I never imagined this was possible for us.",
@@ -25,7 +25,7 @@ const stories = [
   {
     initials: "UF",
     name: "Uwimana family",
-    location: "Kigali, Rwanda",
+    location: "Kicukiro District, Kigali",
     year: "Housed in 2024",
     quote:
       "My husband passed away and I was left with four children and no shelter. iam charity rebuilt our home and also helped me find work. We are not just surviving — we are living.",
@@ -44,8 +44,8 @@ const stories = [
   },
   {
     initials: "OF",
-    name: "Osei family",
-    location: "Kumasi, Ghana",
+    name: "Habimana family",
+    location: "Huye District, Southern Province",
     year: "Housed in 2022",
     quote:
       "Three years later, my son just started university. That would have been unthinkable before we had a stable place to live. A home is everything. It is the beginning of all things.",
@@ -81,7 +81,7 @@ const ImpactStories = () => {
         {stories.map((story) => (
           <div key={story.name} className="bg-white rounded-2xl border border-[#e0d9c8] overflow-hidden w-full mb-12">
             <div className="grid grid-cols-1 md:grid-cols-[1fr_4px_1fr]">
-              <div className="relative h-80 overflow-hidden" style={{ background: "#f0ebe3" }}>
+              <div className="relative h-80 overflow-hidden bg-[#f0ebe3]">
                 <div className="absolute top-3.5 left-3.5 z-10 text-[11px] font-bold tracking-[0.15em] px-3 py-1 rounded-full bg-[#1a1a3e] text-white">
                   BEFORE
                 </div>
@@ -103,7 +103,7 @@ const ImpactStories = () => {
                   </svg>
                 </div>
               </div>
-              <div className="relative h-80 overflow-hidden" style={{ background: "#e8f0e8" }}>
+              <div className="relative h-80 overflow-hidden bg-[#e8f0e8]">
                 <div className="absolute top-3.5 left-3.5 z-10 text-[11px] font-bold tracking-[0.15em] px-3 py-1 rounded-full bg-[#b8962e] text-white">
                   AFTER
                 </div>
