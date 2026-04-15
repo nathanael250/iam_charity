@@ -1,4 +1,3 @@
-import MobileBottomNav from "../components/MobileBottomNav";
 import TopNav from "../components/TopNav";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
@@ -27,7 +26,7 @@ const HelpNeedsSection = () => (
               <h3 className="text-lg font-semibold mt-2">{need.title}</h3>
               <Link
                 className="inline-block mt-4 bg-[#C9822C] text-white text-xs font-bold tracking-[0.2em] px-6 py-2 rounded-sm transition-all duration-200 md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0"
-                to={`/needs/${need.slug}`}
+                to={`/donate?campaign=${need.slug}`}
               >
                 {need.cta}
               </Link>
@@ -72,12 +71,18 @@ const Home = () => {
                     "Less of ourselves, more on others" is a core teaching by Prophet TB Joshua, emphasizing selfless love, humility, and prioritizing the needs of others over one's own comfort. This philosophy focuses on humanitarian work, giving to the less privileged, and serving God through service to humanity.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <button className="bg-tertiary-container text-on-tertiary-container px-10 py-4 rounded-md font-bold text-lg hover:scale-[1.02] transition-all shadow-[0_20px_40px_rgba(27,14,61,0.06)]">
+                    <Link
+                      to="/donate"
+                      className="bg-tertiary-container text-on-tertiary-container px-10 py-4 rounded-md font-bold text-lg hover:scale-[1.02] transition-all shadow-[0_20px_40px_rgba(27,14,61,0.06)] text-center"
+                    >
                       Donate Now
-                    </button>
-                    <button className="border border-primary-container/30 text-primary-container px-10 py-4 rounded-md font-bold text-lg hover:bg-surface-container-low transition-all">
+                    </Link>
+                    <Link
+                      to="/about"
+                      className="border border-primary-container/30 text-primary-container px-10 py-4 rounded-md font-bold text-lg hover:bg-surface-container-low transition-all text-center"
+                    >
                       Our Process
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -241,12 +246,18 @@ const Home = () => {
                     a better future.
                   </p>
                   <div className="inline-flex flex-wrap justify-center gap-6">
-                    <button className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-xl hover:scale-105 transition-transform">
+                    <Link
+                      to="/volunteer"
+                      className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-xl hover:scale-105 transition-transform"
+                    >
                       Become a Monthly Partner
-                    </button>
-                    <button className="border border-white/40 text-white px-12 py-5 rounded-md font-bold text-xl hover:bg-white/10 transition-all">
+                    </Link>
+                    <Link
+                      to="/donate"
+                      className="border border-white/40 text-white px-12 py-5 rounded-md font-bold text-xl hover:bg-white/10 transition-all"
+                    >
                       Make a One-Time Gift
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -257,7 +268,6 @@ const Home = () => {
 
           <Footer />
 
-          <MobileBottomNav />
         </div>
       </div>
 
@@ -286,12 +296,18 @@ const Home = () => {
                     "Less of ourselves, more on others" is a core teaching by Prophet TB Joshua, emphasizing selfless love, humility, and prioritizing the needs of others over one's own comfort. This philosophy focuses on humanitarian work, giving to the less privileged, and serving God through service to humanity.
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    <button className="bg-tertiary-container text-on-tertiary-container px-8 py-4 rounded-md font-bold hover:scale-105 transition-all">
+                    <Link
+                      to="/donate"
+                      className="bg-tertiary-container text-on-tertiary-container px-8 py-4 rounded-md font-bold hover:scale-105 transition-all"
+                    >
                       Start Your Impact
-                    </button>
-                    <button className="border border-primary-container/30 text-primary-container px-8 py-4 rounded-md font-bold hover:bg-surface-container-low transition-all">
+                    </Link>
+                    <Link
+                      to="/about"
+                      className="border border-primary-container/30 text-primary-container px-8 py-4 rounded-md font-bold hover:bg-surface-container-low transition-all"
+                    >
                       View Our Blueprint
-                    </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="hidden lg:block relative">
@@ -462,12 +478,18 @@ const Home = () => {
                   philanthropy.
                 </p>
                 <div className="flex flex-col md:flex-row justify-center gap-4">
-                  <button className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-black/20">
-                    Donate $50 Now
-                  </button>
-                  <button className="bg-white/10 text-white backdrop-blur-md px-12 py-5 rounded-md font-bold text-lg hover:bg-white/20 transition-all border border-white/20">
-                    Become a Monthly Partner
-                  </button>
+                  <Link
+                    to="/donate?amount=50,000"
+                    className="bg-tertiary-container text-on-tertiary-container px-12 py-5 rounded-md font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-black/20"
+                  >
+                    Donate 50,000 RWF
+                  </Link>
+                    <Link
+                      to="/volunteer"
+                      className="bg-white/10 text-white backdrop-blur-md px-12 py-5 rounded-md font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
+                    >
+                      Become a Monthly Partner
+                    </Link>
                 </div>
               </div>
             </section>

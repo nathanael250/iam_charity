@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import ImpactStories from "../components/ImpactStories";
-import MobileBottomNav from "../components/MobileBottomNav";
 import TopNav from "../components/TopNav";
 
 const activityCategories = [
@@ -92,7 +91,7 @@ const Activities = () => {
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                   <Link
-                    to="/contact"
+                    to="/donate"
                     className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-6 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
                   >
                     Support This Project
@@ -172,7 +171,7 @@ const Activities = () => {
                 </div>
 
                 <Link
-                  to="/contact"
+                  to="/donate"
                   className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-8 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
                 >
                   Partner With Us
@@ -185,9 +184,6 @@ const Activities = () => {
         </main>
 
         <Footer />
-        <div className="md:hidden">
-          <MobileBottomNav />
-        </div>
       </div>
     </>
   );

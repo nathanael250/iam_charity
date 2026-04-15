@@ -90,9 +90,12 @@ const TopNav = () => {
                 </Link>
               ))}
             </div>
-            <button className="bg-tertiary-container text-on-tertiary-container px-6 py-2 rounded-md font-bold tracking-wider hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#1B0E3D]/10">
+            <Link
+              to="/donate"
+              className="bg-tertiary-container text-on-tertiary-container px-6 py-2 rounded-md font-bold tracking-wider hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#1B0E3D]/10"
+            >
               Donate
-            </button>
+            </Link>
           </div>
         </nav>
       </div>

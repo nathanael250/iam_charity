@@ -1,6 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
-import MobileBottomNav from "../components/MobileBottomNav";
 import TopNav from "../components/TopNav";
 import helpNeeds from "../data/helpNeeds";
 
@@ -70,9 +69,12 @@ const NeedDetail = () => {
                     </div>
                   </div>
 
-                  <button className="w-full bg-[#C9822C] text-white font-bold tracking-[0.2em] text-sm px-6 py-4 rounded-md">
+                  <Link
+                    to={`/donate?campaign=${campaign.slug}`}
+                    className="block w-full bg-[#C9822C] text-white font-bold tracking-[0.2em] text-sm px-6 py-4 rounded-md text-center"
+                  >
                     Donate to This Family
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -116,9 +118,6 @@ const NeedDetail = () => {
         </main>
 
         <Footer />
-        <div className="md:hidden">
-          <MobileBottomNav />
-        </div>
       </div>
     </>
   );

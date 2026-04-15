@@ -4,6 +4,8 @@ import About from "./pages/About";
 import Activities from "./pages/Activities";
 import Contact from "./pages/Contact";
 import NeedDetail from "./pages/NeedDetail";
+import Donate from "./pages/Donate";
+import Volunteer from "./pages/Volunteer";
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
       <Route path="/about" element={<About />} />
       <Route path="/activities" element={<Activities />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/donate" element={<Donate />} />
+      <Route path="/volunteer" element={<Volunteer />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

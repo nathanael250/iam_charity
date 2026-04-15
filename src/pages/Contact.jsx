@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import MobileBottomNav from "../components/MobileBottomNav";
 import TopNav from "../components/TopNav";
 
 const contactWays = [
@@ -57,10 +56,16 @@ const Contact = () => {
 
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                   <Link
-                    to="/activities"
+                    to="/donate"
                     className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-8 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
                   >
-                    View Activities
+                    Donate Now
+                  </Link>
+                  <Link
+                    to="/volunteer"
+                    className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white/10 px-8 py-4 font-bold uppercase tracking-[0.12em] text-white"
+                  >
+                    Become a Volunteer
                   </Link>
                   <Link
                     to="/about"
@@ -217,10 +222,16 @@ const Contact = () => {
                   </p>
                   <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:flex-col">
                     <Link
-                      to="/activities"
+                      to="/donate"
                       className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-8 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
                     >
-                      View Activities
+                      Donate Now
+                    </Link>
+                    <Link
+                      to="/volunteer"
+                      className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white/10 px-8 py-4 font-bold uppercase tracking-[0.12em] text-white"
+                    >
+                      Volunteer With Us
                     </Link>
                     <Link
                       to="/about"
@@ -236,9 +247,6 @@ const Contact = () => {
         </main>
 
         <Footer />
-        <div className="md:hidden">
-          <MobileBottomNav />
-        </div>
       </div>
     </>
   );

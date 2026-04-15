@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import MobileBottomNav from "../components/MobileBottomNav";
 import TopNav from "../components/TopNav";
 
 const focusAreas = [
@@ -120,7 +119,7 @@ const About = () => {
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                 <Link
                   className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-8 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
-                  to="/contact"
+                  to="/donate"
                 >
                   Support This Project
                 </Link>
@@ -335,7 +334,7 @@ const About = () => {
                   <div className="flex flex-col gap-4 sm:flex-row lg:flex-col">
                     <Link
                       className="inline-flex items-center justify-center rounded-md bg-tertiary-container px-8 py-4 font-bold uppercase tracking-[0.12em] text-[#1B0E3D]"
-                      to="/contact"
+                      to="/donate"
                     >
                       Support This Project
                     </Link>
@@ -353,9 +352,6 @@ const About = () => {
         </main>
 
         <Footer />
-        <div className="md:hidden">
-          <MobileBottomNav />
-        </div>
       </div>
     </>
   );
