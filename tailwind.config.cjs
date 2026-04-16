@@ -6,18 +6,18 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: "1rem",
-        sm: "1.25rem",
-        md: "1.5rem",
-        lg: "2rem",
-        xl: "2.5rem",
-        "2xl": "3rem"
+        sm: "1.5rem",
+        md: "2rem",
+        lg: "2.5rem",
+        xl: "3rem",
+        "2xl": "3.5rem"
       },
       screens: {
         sm: "40rem",
         md: "48rem",
-        lg: "64rem",
-        xl: "80rem",
-        "2xl": "90rem"
+        lg: "60rem",
+        xl: "72rem",
+        "2xl": "80rem"
       }
     },
     extend: {
