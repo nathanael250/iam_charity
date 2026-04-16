@@ -4,8 +4,19 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "0.75rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1.25rem",
+        md: "1.5rem",
+        lg: "2rem",
+        xl: "2.5rem",
+        "2xl": "3rem"
+      },
       screens: {
+        sm: "40rem",
+        md: "48rem",
+        lg: "64rem",
+        xl: "80rem",
         "2xl": "90rem"
       }
     },
