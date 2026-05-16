@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { projectImageService, projectService } from "../../services/adminServices";
+import { getAssetUrl } from "../../services/clientService";
 
 const emptyForm = {
   title: "",
@@ -34,8 +35,8 @@ const ProjectForm = () => {
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
   const [form, setForm] = useState(emptyForm);
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [imageForm, setImageForm] = useState({ image_url: "", caption: "", is_main: false });
+  const [existingImages, setExistingImages] = useState([]);
+  const [pendingImages, setPendingImages] = useState([]);
   const [isLoading, setIsLoading] = useState(isEditMode);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
@@ -64,7 +65,7 @@ const ProjectForm = () => {
           short_description: project?.short_description || "",
           full_description: project?.full_description || "",
         });
-        setGalleryImages(images || []);
+        setExistingImages(images || []);
         setError("");
       } catch (err) {
         setError(err.message);
@@ -76,11 +77,19 @@ const ProjectForm = () => {
     loadProject();
   }, [id, isEditMode]);
 
+  useEffect(() => {
+    return () => {
+      pendingImages.forEach((image) => URL.revokeObjectURL(image.preview_url));
+    };
+  }, [pendingImages]);
+
   const progress = useMemo(() => {
     const target = Number(form.target_amount || 0);
     if (!target) return 0;
     return Math.min(Math.round((Number(form.raised_amount || 0) / target) * 100), 100);
   }, [form.raised_amount, form.target_amount]);
+
+  const galleryCount = existingImages.length + pendingImages.length;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -93,41 +102,46 @@ const ProjectForm = () => {
     });
   };
 
-  const handleImageChange = (event) => {
-    const { name, value, checked, type } = event.target;
-    setImageForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value }));
+  const handleFileSelect = (event) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+
+    const selectedImages = files.map((file) => ({
+      temporary_id: `${file.name}-${file.lastModified}-${Math.random()}`,
+      file,
+      preview_url: URL.createObjectURL(file),
+      caption: "",
+      is_main: false,
+    }));
+
+    setPendingImages((current) => [...current, ...selectedImages]);
+    event.target.value = "";
   };
 
-  const addGalleryImage = () => {
-    const imageUrl = imageForm.image_url.trim();
-    if (!imageUrl) {
-      setError("Please add an image URL before adding it to the gallery.");
-      return;
-    }
-
-    setGalleryImages((current) => [
-      ...current,
-      {
-        ...imageForm,
-        image_url: imageUrl,
-        caption: imageForm.caption.trim(),
-        is_main: Boolean(imageForm.is_main),
-        temporary_id: crypto.randomUUID(),
-      },
-    ]);
-    setImageForm({ image_url: "", caption: "", is_main: false });
-    setError("");
+  const updatePendingImage = (temporaryId, updates) => {
+    setPendingImages((current) =>
+      current.map((image) => (image.temporary_id === temporaryId ? { ...image, ...updates } : image))
+    );
   };
 
-  const removeGalleryImage = async (image) => {
-    if (!image.id) {
-      setGalleryImages((current) => current.filter((item) => item.temporary_id !== image.temporary_id));
-      return;
-    }
+  const markPendingImageMain = (temporaryId) => {
+    setPendingImages((current) =>
+      current.map((image) => ({ ...image, is_main: image.temporary_id === temporaryId }))
+    );
+  };
 
+  const removePendingImage = (temporaryId) => {
+    setPendingImages((current) => {
+      const target = current.find((image) => image.temporary_id === temporaryId);
+      if (target) URL.revokeObjectURL(target.preview_url);
+      return current.filter((image) => image.temporary_id !== temporaryId);
+    });
+  };
+
+  const removeExistingImage = async (image) => {
     try {
       await projectImageService.remove(image.id);
-      setGalleryImages((current) => current.filter((item) => item.id !== image.id));
+      setExistingImages((current) => current.filter((item) => item.id !== image.id));
     } catch (err) {
       setError(err.message);
     }
@@ -147,26 +161,21 @@ const ProjectForm = () => {
     };
 
     try {
-      let savedProject;
-      if (isEditMode) {
-        savedProject = await projectService.update(id, payload);
-      } else {
-        savedProject = await projectService.create(payload);
-      }
+      const savedProject = isEditMode
+        ? await projectService.update(id, payload)
+        : await projectService.create(payload);
 
       const projectId = savedProject?.id || id;
-      const pendingImages = galleryImages.filter((image) => !image.id);
 
-      await Promise.all(
-        pendingImages.map((image) =>
-          projectImageService.create({
-            project_id: projectId,
-            image_url: image.image_url,
-            caption: image.caption,
-            is_main: image.is_main,
-          })
-        )
-      );
+      if (pendingImages.length) {
+        const mainIndex = pendingImages.findIndex((image) => image.is_main);
+        await projectImageService.upload(
+          projectId,
+          pendingImages.map((image) => image.file),
+          pendingImages.map((image) => image.caption),
+          mainIndex
+        );
+      }
 
       navigate("/admin/projects");
     } catch (err) {
@@ -185,7 +194,7 @@ const ProjectForm = () => {
             {isEditMode ? "Edit Project" : "Create New Project"}
           </h1>
           <p className="mt-2 text-sm font-semibold text-[#687083]">
-            Build the project record, funding target, public story, and publishing status.
+            Build the project record, funding target, story, and gallery images.
           </p>
         </div>
         <Link
@@ -213,7 +222,6 @@ const ProjectForm = () => {
                 ["title", "Project Title"],
                 ["slug", "Project Slug"],
                 ["location", "Location"],
-                ["main_image", "Main Image URL"],
                 ["target_amount", "Target Amount"],
                 ["raised_amount", "Raised Amount"],
               ].map(([name, label]) => (
@@ -306,73 +314,34 @@ const ProjectForm = () => {
               </label>
 
               <div className="rounded-xl border border-[#E2E6EE] bg-[#F8FAFD] p-5 lg:col-span-2">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <h2 className="text-lg font-extrabold text-[#07142D]">Project Gallery Images</h2>
                     <p className="mt-1 text-sm font-semibold text-[#687083]">
-                      Add multiple images for the project gallery. These are saved in the project images table.
+                      Upload real image files from your computer. Up to 10 files, 5MB each.
                     </p>
                   </div>
                   <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#687083]">
-                    {galleryImages.length} images
+                    {galleryCount} images
                   </span>
                 </div>
 
-                <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_0.75fr_auto]">
-                  <label className="block text-sm font-extrabold text-[#07142D]">
-                    Image URL
-                    <input
-                      name="image_url"
-                      value={imageForm.image_url}
-                      onChange={handleImageChange}
-                      className="mt-2 h-11 w-full rounded-lg border border-[#DDE2EA] bg-white px-4 text-sm font-semibold outline-none transition focus:border-[#D0A733]"
-                      placeholder="https://example.com/project-image.jpg"
-                    />
-                  </label>
-
-                  <label className="block text-sm font-extrabold text-[#07142D]">
-                    Caption
-                    <input
-                      name="caption"
-                      value={imageForm.caption}
-                      onChange={handleImageChange}
-                      className="mt-2 h-11 w-full rounded-lg border border-[#DDE2EA] bg-white px-4 text-sm font-semibold outline-none transition focus:border-[#D0A733]"
-                      placeholder="Before construction"
-                    />
-                  </label>
-
-                  <div className="flex items-end">
-                    <button
-                      type="button"
-                      onClick={addGalleryImage}
-                      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#071B36] px-4 text-sm font-extrabold text-white"
-                    >
-                      <span className="material-symbols-outlined text-[20px]">add_photo_alternate</span>
-                      Add
-                    </button>
-                  </div>
-                </div>
-
-                <label className="mt-4 flex items-center gap-3 text-sm font-extrabold text-[#07142D]">
-                  <input
-                    type="checkbox"
-                    name="is_main"
-                    checked={imageForm.is_main}
-                    onChange={handleImageChange}
-                    className="h-4 w-4 accent-[#D0A733]"
-                  />
-                  Mark this image as main gallery image
+                <label className="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-[#D0A733] bg-white px-5 py-8 text-center transition hover:bg-[#FFF8EC]">
+                  <span className="material-symbols-outlined text-[40px] text-[#D0A733]">upload_file</span>
+                  <span className="mt-2 text-sm font-extrabold text-[#07142D]">Choose project images</span>
+                  <span className="mt-1 text-xs font-semibold text-[#687083]">PNG, JPG, WEBP, GIF</span>
+                  <input type="file" accept="image/*" multiple onChange={handleFileSelect} className="hidden" />
                 </label>
 
-                {galleryImages.length ? (
+                {galleryCount ? (
                   <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {galleryImages.map((image) => (
-                      <article key={image.id || image.temporary_id} className="overflow-hidden rounded-lg border border-[#E2E6EE] bg-white">
-                        <img src={image.image_url} alt={image.caption || "Project gallery"} className="h-32 w-full object-cover" />
+                    {existingImages.map((image) => (
+                      <article key={image.id} className="overflow-hidden rounded-lg border border-[#E2E6EE] bg-white">
+                        <img src={getAssetUrl(image.image_url)} alt={image.caption || "Project gallery"} className="h-32 w-full object-cover" />
                         <div className="p-3">
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className="text-sm font-extrabold text-[#07142D]">{image.caption || "Gallery image"}</p>
+                              <p className="text-sm font-extrabold text-[#07142D]">{image.caption || "Saved image"}</p>
                               {image.is_main ? (
                                 <span className="mt-2 inline-flex rounded-full bg-[#FFF2D9] px-2 py-1 text-[11px] font-extrabold text-[#A86D00]">
                                   Main
@@ -381,7 +350,41 @@ const ProjectForm = () => {
                             </div>
                             <button
                               type="button"
-                              onClick={() => removeGalleryImage(image)}
+                              onClick={() => removeExistingImage(image)}
+                              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#536078] transition hover:bg-red-50 hover:text-red-600"
+                              title="Remove image"
+                            >
+                              <span className="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+
+                    {pendingImages.map((image) => (
+                      <article key={image.temporary_id} className="overflow-hidden rounded-lg border border-[#E2E6EE] bg-white">
+                        <img src={image.preview_url} alt={image.file.name} className="h-32 w-full object-cover" />
+                        <div className="space-y-3 p-3">
+                          <input
+                            value={image.caption}
+                            onChange={(event) => updatePendingImage(image.temporary_id, { caption: event.target.value })}
+                            className="h-10 w-full rounded-lg border border-[#DDE2EA] px-3 text-sm font-semibold outline-none focus:border-[#D0A733]"
+                            placeholder="Image caption"
+                          />
+                          <div className="flex items-center justify-between gap-3">
+                            <label className="flex items-center gap-2 text-xs font-extrabold text-[#07142D]">
+                              <input
+                                type="radio"
+                                name="pending_main_image"
+                                checked={image.is_main}
+                                onChange={() => markPendingImageMain(image.temporary_id)}
+                                className="accent-[#D0A733]"
+                              />
+                              Main
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => removePendingImage(image.temporary_id)}
                               className="flex h-8 w-8 items-center justify-center rounded-lg text-[#536078] transition hover:bg-red-50 hover:text-red-600"
                               title="Remove image"
                             >
@@ -394,7 +397,7 @@ const ProjectForm = () => {
                   </div>
                 ) : (
                   <div className="mt-5 rounded-lg border border-dashed border-[#DDE2EA] bg-white p-6 text-center text-sm font-semibold text-[#687083]">
-                    No gallery images added yet.
+                    No gallery images selected yet.
                   </div>
                 )}
               </div>
@@ -433,7 +436,7 @@ const ProjectForm = () => {
             <h2 className="mt-4 text-xl font-extrabold">Project publishing checklist</h2>
             <div className="mt-4 space-y-3 text-sm font-semibold text-white/78">
               <p>Use a clear title and location so donors can identify the project quickly.</p>
-              <p>Add a realistic target amount and short story before switching to active.</p>
+              <p>Upload real gallery images before switching a project to active.</p>
               <p>Keep draft status until the public project content is ready.</p>
             </div>
           </article>

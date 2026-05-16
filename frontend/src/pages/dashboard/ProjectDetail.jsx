@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { projectImageService, projectService } from "../../services/adminServices";
+import { getAssetUrl } from "../../services/clientService";
 
 const statusStyles = {
   active: "bg-[#E8F1FF] text-[#2369B4]",
@@ -165,7 +166,7 @@ const ProjectDetail = () => {
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {galleryImages.map((image) => (
                   <figure key={image.id} className="overflow-hidden rounded-lg border border-[#E2E6EE]">
-                    <img src={image.image_url} alt={image.caption || project.title} className="h-52 w-full object-cover" />
+                    <img src={getAssetUrl(image.image_url)} alt={image.caption || project.title} className="h-52 w-full object-cover" />
                     <figcaption className="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-[#536078]">
                       <span>{image.caption || "Project image"}</span>
                       {image.is_main ? (

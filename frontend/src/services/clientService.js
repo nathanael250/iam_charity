@@ -1,8 +1,14 @@
 const trimTrailingSlash = (value) => String(value || "").replace(/\/+$/, "");
 
 export const API_BASE_URL = trimTrailingSlash(
-  import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"
+  import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || "http://localhost:5001"
 );
+
+export const getAssetUrl = (path) => {
+  if (!path) return "";
+  if (/^(https?:|data:|blob:)/.test(path)) return path;
+  return `${API_BASE_URL}${String(path).startsWith("/") ? path : `/${path}`}`;
+};
 
 export const jsonHeaders = {
   "Content-Type": "application/json",
