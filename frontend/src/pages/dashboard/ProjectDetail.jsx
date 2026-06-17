@@ -22,7 +22,7 @@ const categoryLabels = {
 const formatMoney = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "RWF",
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(Number(value || 0));
 
@@ -44,6 +44,12 @@ const ProjectDetail = () => {
 
   useEffect(() => {
     const loadProject = async () => {
+      if (!id) {
+        setError("Project ID is missing.");
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
       try {
         const [projectData, images] = await Promise.all([

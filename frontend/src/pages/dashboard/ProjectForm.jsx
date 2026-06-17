@@ -18,6 +18,10 @@ const emptyForm = {
   full_description: "",
 };
 
+const MAX_IMAGE_COUNT = 10;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 const makeSlug = (value) =>
   value
     .toLowerCase()
@@ -28,6 +32,15 @@ const makeSlug = (value) =>
 const toDateInput = (value) => {
   if (!value) return "";
   return String(value).slice(0, 10);
+};
+
+const formatAmountInput = (value) => {
+  if (value === "" || value === null || value === undefined) return "";
+
+  const [integerPart, decimalPart] = String(value).replaceAll(",", "").split(".");
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  return decimalPart === undefined ? formattedInteger : `${formattedInteger}.${decimalPart}`;
 };
 
 const ProjectForm = () => {
@@ -44,6 +57,11 @@ const ProjectForm = () => {
   useEffect(() => {
     const loadProject = async () => {
       if (!isEditMode) return;
+      if (!id) {
+        setError("Project ID is missing.");
+        setIsLoading(false);
+        return;
+      }
 
       setIsLoading(true);
       try {
@@ -102,9 +120,39 @@ const ProjectForm = () => {
     });
   };
 
+  const handleAmountChange = (event) => {
+    const { name, value } = event.target;
+    const numericValue = value.replaceAll(",", "").trim();
+
+    if (/^\d*(\.\d{0,2})?$/.test(numericValue)) {
+      setForm((current) => ({ ...current, [name]: numericValue }));
+    }
+  };
+
   const handleFileSelect = (event) => {
     const files = Array.from(event.target.files || []);
     if (!files.length) return;
+
+    const availableSlots = MAX_IMAGE_COUNT - galleryCount;
+    if (availableSlots <= 0 || files.length > availableSlots) {
+      setError(`You can add up to ${MAX_IMAGE_COUNT} images in total.`);
+      event.target.value = "";
+      return;
+    }
+
+    const unsupportedFile = files.find((file) => !ALLOWED_IMAGE_TYPES.includes(file.type));
+    if (unsupportedFile) {
+      setError(`${unsupportedFile.name} is not supported. Use JPG, PNG, WEBP, or GIF.`);
+      event.target.value = "";
+      return;
+    }
+
+    const oversizedFile = files.find((file) => file.size > MAX_IMAGE_SIZE);
+    if (oversizedFile) {
+      setError(`${oversizedFile.name} is larger than 5 MB.`);
+      event.target.value = "";
+      return;
+    }
 
     const selectedImages = files.map((file) => ({
       temporary_id: `${file.name}-${file.lastModified}-${Math.random()}`,
@@ -115,6 +163,7 @@ const ProjectForm = () => {
     }));
 
     setPendingImages((current) => [...current, ...selectedImages]);
+    setError("");
     event.target.value = "";
   };
 
@@ -168,7 +217,8 @@ const ProjectForm = () => {
       const projectId = savedProject?.id || id;
 
       if (pendingImages.length) {
-        const mainIndex = pendingImages.findIndex((image) => image.is_main);
+        const selectedMainIndex = pendingImages.findIndex((image) => image.is_main);
+        const mainIndex = selectedMainIndex >= 0 ? selectedMainIndex : 0;
         await projectImageService.upload(
           projectId,
           pendingImages.map((image) => image.file),
@@ -224,18 +274,31 @@ const ProjectForm = () => {
                 ["location", "Location"],
                 ["target_amount", "Target Amount"],
                 ["raised_amount", "Raised Amount"],
-              ].map(([name, label]) => (
-                <label key={name} className="block text-sm font-extrabold text-[#07142D]">
-                  {label}
-                  <input
-                    name={name}
-                    value={form[name]}
-                    onChange={handleChange}
-                    className="mt-2 h-11 w-full rounded-lg border border-[#DDE2EA] px-4 text-sm font-semibold outline-none transition focus:border-[#D0A733] focus:ring-2 focus:ring-[#F3E3B4]"
-                    required={name === "title" || name === "slug"}
-                  />
-                </label>
-              ))}
+              ].map(([name, label]) => {
+                const isAmount = name === "target_amount" || name === "raised_amount";
+
+                return (
+                  <label key={name} className="block text-sm font-extrabold text-[#07142D]">
+                    {label}
+                    <div className="relative mt-2">
+                      {isAmount ? (
+                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-[#8A92A1]">
+                          USD
+                        </span>
+                      ) : null}
+                      <input
+                        name={name}
+                        value={isAmount ? formatAmountInput(form[name]) : form[name]}
+                        onChange={isAmount ? handleAmountChange : handleChange}
+                        inputMode={isAmount ? "decimal" : undefined}
+                        placeholder={isAmount ? "0" : undefined}
+                        className={`h-11 w-full rounded-lg border border-[#DDE2EA] px-4 text-sm font-semibold outline-none transition focus:border-[#D0A733] focus:ring-2 focus:ring-[#F3E3B4] ${isAmount ? "pr-14" : ""}`}
+                        required={name === "title" || name === "slug"}
+                      />
+                    </div>
+                  </label>
+                );
+              })}
 
               <label className="block text-sm font-extrabold text-[#07142D]">
                 Category
@@ -318,7 +381,7 @@ const ProjectForm = () => {
                   <div>
                     <h2 className="text-lg font-extrabold text-[#07142D]">Project Gallery Images</h2>
                     <p className="mt-1 text-sm font-semibold text-[#687083]">
-                      Upload real image files from your computer. Up to 10 files, 5MB each.
+                      JPG, PNG, WEBP, or GIF. Maximum 5 MB per image and 10 images in total.
                     </p>
                   </div>
                   <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#687083]">
@@ -329,8 +392,9 @@ const ProjectForm = () => {
                 <label className="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-[#D0A733] bg-white px-5 py-8 text-center transition hover:bg-[#FFF8EC]">
                   <span className="material-symbols-outlined text-[40px] text-[#D0A733]">upload_file</span>
                   <span className="mt-2 text-sm font-extrabold text-[#07142D]">Choose project images</span>
-                  <span className="mt-1 text-xs font-semibold text-[#687083]">PNG, JPG, WEBP, GIF</span>
-                  <input type="file" accept="image/*" multiple onChange={handleFileSelect} className="hidden" />
+                  <span className="mt-1 text-xs font-semibold text-[#687083]">JPG, PNG, WEBP, GIF · 5 MB maximum each</span>
+                  <span className="mt-1 text-xs font-semibold text-[#9AA3B3]">Up to {MAX_IMAGE_COUNT} images</span>
+                  <input type="file" accept=".jpg,.jpeg,.png,.webp,.gif" multiple onChange={handleFileSelect} className="hidden" />
                 </label>
 
                 {galleryCount ? (

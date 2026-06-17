@@ -21,7 +21,7 @@ const categoryLabels = {
 const formatMoney = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "RWF",
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(Number(value || 0));
 
@@ -65,16 +65,7 @@ const Projects = () => {
     });
   }, [projects, search, status]);
 
-  const stats = useMemo(() => {
-    const totalRaised = projects.reduce((sum, project) => sum + Number(project.raised_amount || 0), 0);
 
-    return [
-      { label: "Total Projects", value: projects.length },
-      { label: "Active Projects", value: projects.filter((project) => project.status === "active").length },
-      { label: "Total Raised", value: formatMoney(totalRaised) },
-      { label: "Completed", value: projects.filter((project) => project.status === "completed").length },
-    ];
-  }, [projects]);
 
   const handleDelete = async (project) => {
     const confirmed = window.confirm(`Delete "${project.title}"?`);
@@ -89,24 +80,19 @@ const Projects = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold text-[#07142D]">Projects Management</h1>
-          <p className="mt-2 text-sm font-semibold text-[#687083]">
-            Manage all support projects, funding progress, and publishing status.
-          </p>
-        </div>
+        <h1 className="text-2xl font-extrabold text-[#07142D] sm:text-3xl">Support Cases</h1>
         <Link
           to="/admin/projects/new"
           className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#D0A733] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#B98F1E]"
         >
           <span className="material-symbols-outlined text-[20px]">add</span>
-          Create Project
+          Add Support Case
         </Link>
       </div>
 
-      <section className="rounded-xl border border-[#E2E6EE] bg-white p-4 shadow-sm">
+      <section className="rounded-xl border border-[#E2E6EE] bg-white p-3 shadow-sm sm:p-4">
         <div className="flex flex-col gap-4 md:flex-row">
           <label className="relative flex-1">
             <span className="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-[#9AA3B3]">
@@ -116,7 +102,7 @@ const Projects = () => {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               className="h-11 w-full rounded-lg border border-[#DDE2EA] pl-10 pr-4 text-sm font-semibold text-[#07142D] outline-none transition focus:border-[#D0A733] focus:ring-2 focus:ring-[#F3E3B4]"
-              placeholder="Search projects..."
+              placeholder="Search support cases..."
             />
           </label>
           <div className="flex items-center gap-3">
@@ -148,15 +134,6 @@ const Projects = () => {
           {error}
         </div>
       ) : null}
-
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {stats.map((item) => (
-          <article key={item.label} className="rounded-lg border border-[#E2E6EE] bg-white p-5 shadow-sm">
-            <p className="text-2xl font-extrabold text-[#07142D]">{item.value}</p>
-            <p className="mt-1 text-sm font-semibold text-[#687083]">{item.label}</p>
-          </article>
-        ))}
-      </div>
 
       <section className="grid gap-6 lg:grid-cols-2">
         {filteredProjects.map((project) => {
@@ -225,15 +202,16 @@ const Projects = () => {
         })}
 
         {!filteredProjects.length && !isLoading ? (
-          <div className="rounded-xl border border-dashed border-[#DDE2EA] bg-white p-10 text-center lg:col-span-2">
-            <p className="text-lg font-extrabold text-[#07142D]">No projects found</p>
-            <p className="mt-2 text-sm font-semibold text-[#687083]">Try another search or create the first project.</p>
+          <div className="flex min-h-36 items-center justify-center rounded-xl border border-dashed border-[#DDE2EA] bg-white p-6 text-center lg:col-span-2">
+            <p className="text-sm font-bold text-[#687083]">
+              {search || status ? "No matching support cases." : "No support cases yet."}
+            </p>
           </div>
         ) : null}
 
         {isLoading ? (
-          <div className="rounded-xl border border-[#E2E6EE] bg-white p-10 text-center lg:col-span-2">
-            <p className="text-sm font-extrabold text-[#687083]">Loading projects...</p>
+          <div className="flex min-h-36 items-center justify-center rounded-xl border border-[#E2E6EE] bg-white p-6 text-center lg:col-span-2">
+            <p className="text-sm font-bold text-[#687083]">Loading...</p>
           </div>
         ) : null}
       </section>

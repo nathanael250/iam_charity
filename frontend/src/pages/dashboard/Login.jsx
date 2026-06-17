@@ -11,6 +11,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (authService.isAuthenticated()) {
     return <Navigate to="/admin/dashboard" replace />;
@@ -21,14 +22,18 @@ const Login = () => {
     setForm((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
 
     try {
-      authService.login(form);
+      await authService.login(form);
       navigate(location.state?.from || "/admin/dashboard", { replace: true });
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -109,9 +114,10 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D0A733] text-sm font-extrabold text-white shadow-sm transition hover:bg-[#B98F1E]"
+                  disabled={isSubmitting}
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#D0A733] text-sm font-extrabold text-white shadow-sm transition hover:bg-[#B98F1E] disabled:cursor-not-allowed disabled:opacity-65"
                 >
-                  Login to Dashboard
+                  {isSubmitting ? "Signing in..." : "Login to Dashboard"}
                   <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                 </button>
               </form>

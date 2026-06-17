@@ -1,3 +1,10 @@
+require("./config/env");
+
+if (process.env.NODE_ENV === "production" && !process.env.AUTH_TOKEN_SECRET) {
+  console.error("AUTH_TOKEN_SECRET is required in production");
+  process.exit(1);
+}
+
 const app = require("./app");
 const { pool } = require("./config/database");
 

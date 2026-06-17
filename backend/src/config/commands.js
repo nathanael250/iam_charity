@@ -1,5 +1,6 @@
 module.exports = {
   HEALTH: "health",
+  LOGIN: "login",
 
   LIST_ADMINS: "list_admins",
   GET_ADMIN: "get_admin",
@@ -18,9 +19,61 @@ module.exports = {
   UPLOAD_PROJECT_IMAGES: "upload_project_images",
   DELETE_PROJECT_IMAGE: "delete_project_image",
 
+  LIST_IMPACT_GALLERY_IMAGES: "list_impact_gallery_images",
+  UPLOAD_IMPACT_GALLERY_IMAGES: "upload_impact_gallery_images",
+  DELETE_IMPACT_GALLERY_IMAGE: "delete_impact_gallery_image",
+
+  LIST_IMPACT_STATISTICS: "list_impact_statistics",
+  UPDATE_IMPACT_STATISTIC: "update_impact_statistic",
+  GET_HOME_IMPACT_SECTION: "get_home_impact_section",
+  UPDATE_HOME_IMPACT_SECTION: "update_home_impact_section",
+  GET_ABOUT_IMPACT_SECTION: "get_about_impact_section",
+  UPDATE_ABOUT_IMPACT_SECTION: "update_about_impact_section",
+  GET_IMPACT_PAGE_HERO: "get_impact_page_hero",
+  UPDATE_IMPACT_PAGE_HERO: "update_impact_page_hero",
+  LIST_IMPACT_PAGE_STATISTICS: "list_impact_page_statistics",
+  UPDATE_IMPACT_PAGE_STATISTIC: "update_impact_page_statistic",
+  LIST_HOME_TESTIMONIALS: "list_home_testimonials",
+  CREATE_HOME_TESTIMONIAL: "create_home_testimonial",
+  UPDATE_HOME_TESTIMONIAL: "update_home_testimonial",
+  DELETE_HOME_TESTIMONIAL: "delete_home_testimonial",
+
   LIST_PROJECT_UPDATES: "list_project_updates",
   CREATE_PROJECT_UPDATE: "create_project_update",
+  UPDATE_PROJECT_UPDATE: "update_project_update",
+  UPDATE_PROJECT_UPDATE_IMAGES: "update_project_update_images",
+  UPDATE_PROJECT_UPDATE_STATUS: "update_project_update_status",
   DELETE_PROJECT_UPDATE: "delete_project_update",
+
+  LIST_BENEFICIARIES: "list_beneficiaries",
+  GET_BENEFICIARY: "get_beneficiary",
+  CREATE_BENEFICIARY: "create_beneficiary",
+  UPDATE_BENEFICIARY: "update_beneficiary",
+  DELETE_BENEFICIARY: "delete_beneficiary",
+
+  LIST_MATERIAL_UNITS: "list_material_units",
+  CREATE_MATERIAL_UNIT: "create_material_unit",
+  UPDATE_MATERIAL_UNIT: "update_material_unit",
+  DELETE_MATERIAL_UNIT: "delete_material_unit",
+
+  LIST_MATERIALS_USED: "list_materials_used",
+  GET_MATERIAL_USED: "get_material_used",
+  CREATE_MATERIAL_USED: "create_material_used",
+  UPDATE_MATERIAL_USED: "update_material_used",
+  DELETE_MATERIAL_USED: "delete_material_used",
+
+  LIST_EXPENSE_CATEGORIES: "list_expense_categories",
+  CREATE_EXPENSE_CATEGORY: "create_expense_category",
+  UPDATE_EXPENSE_CATEGORY: "update_expense_category",
+  DELETE_EXPENSE_CATEGORY: "delete_expense_category",
+
+  LIST_EXPENSES: "list_expenses",
+  GET_EXPENSE: "get_expense",
+  CREATE_EXPENSE: "create_expense",
+  UPDATE_EXPENSE: "update_expense",
+  DELETE_EXPENSE: "delete_expense",
+
+  GET_RESOURCE_SUMMARY: "get_resource_summary",
 
   LIST_DONATIONS: "list_donations",
   GET_DONATION: "get_donation",

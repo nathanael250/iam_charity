@@ -1,44 +1,67 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import TopNav from "../components/TopNav";
+import { aboutImpactService, impactStatisticService } from "../services/adminServices";
+import { getAssetUrl } from "../services/clientService";
 import aboutHero from "../assets/hello_sec-img_1.png";
 import impactFamily from "../assets/family_images/c_img2.png";
-import teamOne from "../assets/family_images/c_img1.png";
-import teamTwo from "../assets/family_images/c_img3.png";
-import teamThree from "../assets/family_images/c_img4.png";
-import teamFour from "../assets/family_images/c_img5.png";
 
 const values = [
   { icon: "volunteer_activism", title: "Compassion", text: "We care deeply about people and act with kindness and empathy." },
-  { icon: "verified_user", title: "Integrity", text: "We are honest, transparent, and accountable in everything we do." },
   { icon: "groups", title: "Respect", text: "We value every individual regardless of background, belief, or circumstance." },
   { icon: "favorite", title: "Empowerment", text: "We empower families and communities to build a better future." },
   { icon: "diversity_3", title: "Collaboration", text: "We believe in the power of partnerships and working together for greater impact." },
 ];
 
-const stats = [
-  { icon: "home", value: "1,240+", label: "Families Housed", meta: "Since 2018" },
-  { icon: "verified_user", value: "98%", label: "Still in Stable Housing", meta: "After 2 Years" },
-  { icon: "groups", value: "34", label: "Communities", meta: "Transformed" },
-  { icon: "favorite", value: "2,500+", label: "Generous Donors", meta: "Worldwide" },
+const defaultStats = [
+  { statistic_key: "families_supported", icon: "home", value: "0", label: "Families Supported", description: "Families who have received support" },
+  { statistic_key: "completed_cases", icon: "verified", value: "0", label: "Completed Support Cases", description: "Support cases successfully completed" },
+  { statistic_key: "families_housed", icon: "home", value: "0", label: "Families Housed", description: "Since 2018" },
+  { statistic_key: "stable_housing", icon: "verified_user", value: "0", label: "Still in Stable Housing", description: "After 2 Years" },
 ];
 
-const team = [
-  { name: "Jean Claude N.", role: "Founder & Director", image: teamOne, position: "center 34%" },
-  { name: "Aline M.", role: "Programs Manager", image: teamTwo, position: "center 30%" },
-  { name: "Emmanuel R.", role: "Operations Manager", image: teamThree, position: "center 32%" },
-  { name: "Claudine T.", role: "Partnerships Lead", image: teamFour, position: "center 30%" },
-];
+const impactStatisticKeys = defaultStats.map((stat) => stat.statistic_key);
 
 const SectionTitle = ({ eyebrow, title, centered = false }) => (
   <div className={centered ? "text-center" : ""}>
     {eyebrow && <p className="text-[13px] font-extrabold uppercase tracking-wide text-[#C9A84C]">{eyebrow}</p>}
-    <h2 className="mt-2 text-[30px] font-extrabold leading-tight text-[#17142F] md:text-[34px]">{title}</h2>
+    <h2 className="mt-2 text-[26px] font-extrabold leading-tight text-[#17142F] sm:text-[30px] md:text-[34px]">{title}</h2>
     <div className={["mt-3 h-[3px] w-12 bg-[#C9A84C]", centered ? "mx-auto" : ""].join(" ")} />
   </div>
 );
 
 const About = () => {
+  const [stats, setStats] = useState(defaultStats);
+  const [aboutImpact, setAboutImpact] = useState({ impact_image_url: "" });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    impactStatisticService
+      .list()
+      .then((data) => {
+        const filteredStats = (data || []).filter((stat) => impactStatisticKeys.includes(stat.statistic_key));
+        if (isMounted && filteredStats.length) setStats(filteredStats);
+      })
+      .catch(() => {
+        if (isMounted) setStats(defaultStats);
+      });
+
+    aboutImpactService
+      .get()
+      .then((data) => {
+        if (isMounted && data) setAboutImpact(data);
+      })
+      .catch(() => {
+        if (isMounted) setAboutImpact({ impact_image_url: "" });
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white text-[#17142F]">
       <TopNav />
@@ -51,175 +74,127 @@ const About = () => {
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#14112D] via-[#14112D]/88 via-58% to-[#14112D]/8" />
-          <div className="container relative z-10 flex min-h-[372px] items-center py-12">
+          <div className="container relative z-10 flex min-h-[190px] items-center py-6 sm:min-h-[240px] sm:py-8 lg:min-h-[270px]">
             <div className="max-w-[500px]">
-              <p className="text-sm font-bold text-white/85">
-                <Link to="/" className="hover:text-[#C9A84C]">Home</Link>
-                <span className="mx-2">›</span>
-                About Us
-              </p>
-              <h1 className="mt-8 text-[44px] font-extrabold tracking-normal md:text-[56px]">About Us</h1>
-              <div className="mt-5 h-[3px] w-14 bg-[#C9A84C]" />
-              <p className="mt-7 text-base font-semibold leading-8 text-white/88">
-                We are a community of passionate people working together to build homes, restore hope, and transform lives for vulnerable families.
-              </p>
+              <h1 className="text-3xl font-extrabold tracking-normal sm:text-[44px] md:text-[56px]">About Us</h1>
+              <div className="mt-3 h-0.5 w-10 bg-[#C9A84C] sm:mt-5 sm:h-[3px] sm:w-14" />
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-12 lg:py-14">
-          <div className="container grid gap-7 lg:grid-cols-[1.18fr_1fr_1fr]">
-            <div className="pr-0 lg:pr-12">
-              <SectionTitle title="Our Story" />
-              <div className="mt-7 space-y-6 text-[15px] font-semibold leading-8 text-[#4F4B60]">
+        <section className="bg-white py-9 sm:py-12 lg:py-14">
+          <div className="container grid grid-cols-2 gap-4 sm:gap-7 lg:grid-cols-[1.18fr_1fr_1fr]">
+            <div className="col-span-2 pr-0 lg:col-span-1 lg:pr-12">
+              <SectionTitle title="Who We Are" />
+              <div className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#4F4B60] sm:mt-7 sm:space-y-6 sm:text-[15px] sm:leading-8">
                 <p>
-                  Hope & Homes Foundation was founded with a simple idea: every family deserves a safe place to call home. What started as a small initiative to support a few homeless families has grown into a movement that has impacted thousands of lives.
+                  I Am Group is a Rwanda-based organization responding to the needs of orphans, widows, the elderly, and people in need through compassionate and practical action.
                 </p>
                 <p>
-                  We work hand-in-hand with local communities, partners, and generous supporters to build more than houses. We build hope, dignity, and a better future.
+                  Our name reflects the biblical call, “Here am I. Send me,” and our commitment to answer that call by restoring dignity and empowering vulnerable lives.
                 </p>
               </div>
-              <Link
-                to="/projects"
-                className="mt-8 inline-flex items-center gap-3 rounded-md bg-[#C9A84C] px-7 py-4 text-sm font-extrabold text-white shadow-lg shadow-[#C9A84C]/25 transition hover:bg-[#b99737]"
-              >
-                Our Impact
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </Link>
             </div>
 
-            <article className="min-h-[340px] rounded-lg bg-gradient-to-br from-[#FBF8EF] to-[#F7F1E4] p-10 shadow-[0_18px_50px_rgba(17,14,47,0.055)]">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-[#C9A84C] shadow-sm">
-                <span className="material-symbols-outlined text-[34px]">track_changes</span>
+            <article className="rounded-lg bg-gradient-to-br from-[#FBF8EF] to-[#F7F1E4] p-4 shadow-[0_18px_50px_rgba(17,14,47,0.055)] sm:min-h-[340px] sm:p-8 lg:p-10">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#C9A84C] shadow-sm sm:h-16 sm:w-16">
+                <span className="material-symbols-outlined text-[25px] sm:text-[34px]">visibility</span>
               </div>
-              <h3 className="mt-8 text-2xl font-extrabold text-[#17142F]">Our Mission</h3>
-              <div className="mt-3 h-[3px] w-12 bg-[#C9A84C]" />
-              <p className="mt-6 text-[15px] font-semibold leading-8 text-[#4F4B60]">
-                To mobilize resources and build safe, decent, and sustainable homes for homeless and vulnerable families, while providing essential support that improves their quality of life.
+              <h3 className="mt-4 text-lg font-extrabold text-[#17142F] sm:mt-8 sm:text-2xl">Our Vision</h3>
+              <div className="mt-2 h-0.5 w-8 bg-[#C9A84C] sm:mt-3 sm:h-[3px] sm:w-12" />
+              <p className="mt-3 text-[11px] font-semibold leading-5 text-[#4F4B60] sm:mt-6 sm:text-[15px] sm:leading-8">
+                A society where orphans, widows, the elderly, and the needy experience God’s love through practical support, restored dignity, and empowered lives.
               </p>
             </article>
 
-            <article className="min-h-[340px] rounded-lg bg-gradient-to-br from-[#FCF8FD] to-[#F7F1FA] p-10 shadow-[0_18px_50px_rgba(17,14,47,0.055)]">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-[#C9A84C] shadow-sm">
-                <span className="material-symbols-outlined text-[34px]">visibility</span>
+            <article className="rounded-lg bg-gradient-to-br from-[#FCF8FD] to-[#F7F1FA] p-4 shadow-[0_18px_50px_rgba(17,14,47,0.055)] sm:min-h-[340px] sm:p-8 lg:p-10">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#C9A84C] shadow-sm sm:h-16 sm:w-16">
+                <span className="material-symbols-outlined text-[25px] sm:text-[34px]">track_changes</span>
               </div>
-              <h3 className="mt-8 text-2xl font-extrabold text-[#17142F]">Our Vision</h3>
-              <div className="mt-3 h-[3px] w-12 bg-[#C9A84C]" />
-              <p className="mt-6 text-[15px] font-semibold leading-8 text-[#4F4B60]">
-                A world where every family has a safe home, every child has hope, and every community can thrive with dignity and opportunity.
+              <h3 className="mt-4 text-lg font-extrabold text-[#17142F] sm:mt-8 sm:text-2xl">Our Mission</h3>
+              <div className="mt-2 h-0.5 w-8 bg-[#C9A84C] sm:mt-3 sm:h-[3px] sm:w-12" />
+              <p className="mt-3 text-[11px] font-semibold leading-5 text-[#4F4B60] sm:mt-6 sm:text-[15px] sm:leading-8">
+                To heed the biblical call “Here am I. Send me” by delivering compassionate, holistic care and sustainable development to vulnerable groups in Rwanda.
               </p>
             </article>
           </div>
         </section>
 
-        <section className="bg-[#FAFAFC] py-11">
+        <section className="bg-[#FAFAFC] py-8 sm:py-11">
           <div className="container">
             <SectionTitle title="Our Core Values" centered />
-            <div className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-7 sm:mt-10 sm:gap-7 lg:grid-cols-4">
               {values.map((value) => (
                 <article key={value.title} className="text-center">
-                  <div className="mx-auto flex h-[70px] w-[70px] items-center justify-center rounded-full border border-[#E2C66C] bg-white text-[#C9A84C] shadow-sm">
-                    <span className="material-symbols-outlined text-[34px]">{value.icon}</span>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#E2C66C] bg-white text-[#C9A84C] shadow-sm sm:h-[70px] sm:w-[70px]">
+                    <span className="material-symbols-outlined text-[26px] sm:text-[34px]">{value.icon}</span>
                   </div>
-                  <h3 className="mt-5 text-[15px] font-extrabold text-[#17142F]">{value.title}</h3>
-                  <p className="mx-auto mt-3 max-w-[185px] text-xs font-semibold leading-6 text-[#4F4B60]">{value.text}</p>
+                  <h3 className="mt-3 text-sm font-extrabold text-[#17142F] sm:mt-5 sm:text-[15px]">{value.title}</h3>
+                  <p className="mx-auto mt-2 max-w-[165px] text-[11px] font-semibold leading-5 text-[#4F4B60] sm:mt-3 sm:max-w-[185px] sm:text-xs sm:leading-6">{value.text}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-10">
-          <div className="container grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+        <section className="bg-white py-8 sm:py-10">
+          <div className="container grid gap-6 sm:gap-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
             <div>
               <SectionTitle title="Our Impact in Numbers" />
-              <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 sm:mt-9 lg:grid-cols-4">
                 {stats.map((stat, index) => (
-                  <div key={stat.label} className={["px-3 text-center", index !== 0 ? "lg:border-l lg:border-[#EAE5ED]" : ""].join(" ")}>
-                    <span className="material-symbols-outlined text-[34px] text-[#C9A84C]">{stat.icon}</span>
-                    <p className="mt-4 text-[26px] font-extrabold text-[#17142F]">{stat.value}</p>
-                    <p className="mt-1 text-xs font-bold text-[#514E66]">{stat.label}</p>
-                    <p className="text-xs font-semibold text-[#777386]">{stat.meta}</p>
+                  <div
+                    key={stat.label}
+                    className={[
+                      "px-2 py-5 text-center sm:px-3",
+                      index % 2 === 0 ? "border-r border-[#EAE5ED]" : "",
+                      index < 2 ? "border-b border-[#EAE5ED] lg:border-b-0" : "",
+                      index > 0 ? "lg:border-l lg:border-[#EAE5ED]" : "",
+                      index % 2 === 0 ? "lg:border-r-0" : "",
+                    ].join(" ")}
+                  >
+                    <span className="material-symbols-outlined text-[27px] text-[#C9A84C] sm:text-[34px]">{stat.icon}</span>
+                    <p className="mt-2 text-xl font-extrabold text-[#17142F] sm:mt-4 sm:text-[26px]">{stat.value}</p>
+                    <p className="mt-1 text-[11px] font-bold leading-4 text-[#514E66] sm:text-xs">{stat.label}</p>
+                    <p className="text-[10px] font-semibold leading-4 text-[#777386] sm:text-xs">{stat.description}</p>
                   </div>
                 ))}
               </div>
             </div>
             <img
-              src={impactFamily}
+              src={aboutImpact.impact_image_url ? getAssetUrl(aboutImpact.impact_image_url) : impactFamily}
               alt="Family standing in front of a completed home"
-              className="h-[294px] w-full rounded-lg object-cover object-center shadow-[0_16px_44px_rgba(17,14,47,0.1)]"
+              className="h-48 w-full rounded-lg object-cover object-center shadow-[0_16px_44px_rgba(17,14,47,0.1)] sm:h-[294px]"
             />
           </div>
         </section>
 
-        <section className="bg-[#FBFAFF] py-10">
+        <section className="bg-[#FBFAFF] pb-7 pt-2 sm:pb-14 sm:pt-5">
           <div className="container">
-            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h2 className="text-[30px] font-extrabold text-[#17142F]">Our Team</h2>
-                <p className="mt-2 max-w-[480px] text-sm font-semibold leading-7 text-[#4F4B60]">
-                  A dedicated team of professionals and volunteers committed to making a difference.
-                </p>
-              </div>
-              <Link
-                to="/volunteer"
-                className="inline-flex w-fit items-center gap-2 rounded-md border border-[#C9A84C] px-6 py-3 text-sm font-extrabold text-[#C49B2E] transition hover:bg-[#C9A84C] hover:text-white"
-              >
-                Join Our Team
-                <span className="material-symbols-outlined text-[18px]">group_add</span>
-              </Link>
-            </div>
-
-            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {team.map((member, index) => (
-                <article key={member.name} className="rounded-lg bg-white p-7 text-center shadow-[0_14px_38px_rgba(17,14,47,0.07)] ring-1 ring-[#F0ECF4]">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="mx-auto h-20 w-20 rounded-full object-cover grayscale"
-                    style={{ objectPosition: member.position }}
-                  />
-                  <h3 className="mt-5 text-base font-extrabold text-[#17142F]">{member.name}</h3>
-                  <p className="mt-1 text-xs font-semibold text-[#777386]">{member.role}</p>
-                  <div className="mt-5 flex justify-center gap-5 text-[#17142F]">
-                    {["business_center", "public", "mail"].map((icon) => (
-                      <span key={`${member.name}-${icon}-${index}`} className="material-symbols-outlined text-[17px] text-[#C9A84C]">
-                        {icon}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#FBFAFF] pb-3">
-          <div className="container">
-            <div className="rounded-lg bg-[#17142F] px-8 py-8 text-white shadow-[0_16px_44px_rgba(17,14,47,0.14)]">
-              <div className="grid gap-7 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full border border-[#C9A84C] text-[#C9A84C]">
-                  <span className="material-symbols-outlined text-[38px]">volunteer_activism</span>
+            <div className="rounded-lg border border-[#E7D8AA] bg-gradient-to-r from-[#FBF6E8] to-[#F7F0DF] px-4 py-5 text-[#17142F] shadow-[0_16px_44px_rgba(17,14,47,0.08)] sm:px-8 sm:py-8">
+              <div className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-5 sm:block lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-7">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C9A84C] bg-white/70 text-[#B88D1D] sm:h-20 sm:w-20">
+                  <span className="material-symbols-outlined text-[25px] sm:text-[38px]">volunteer_activism</span>
                 </div>
                 <div>
-                  <h2 className="text-3xl font-extrabold">Be Part of the Change</h2>
-                  <p className="mt-2 text-sm font-semibold text-white/75">Your support helps us build homes and transform lives.</p>
+                  <h2 className="text-xl font-extrabold sm:text-3xl">Be Part of the Change</h2>
+                  <p className="mt-1 text-xs font-semibold leading-5 text-[#625E72] sm:mt-2 sm:text-sm">Your support helps us restore dignity and empower vulnerable lives.</p>
                 </div>
-                <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="col-span-2 grid grid-cols-2 gap-2 sm:mt-7 sm:flex sm:gap-3 lg:col-span-1 lg:mt-0">
                   <Link
                     to="/donate"
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-[#C9A84C] px-7 py-4 text-sm font-extrabold text-white transition hover:bg-[#b99737]"
+                    className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-md bg-[#C9A84C] px-3 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#b99737] sm:px-7 sm:py-4 sm:text-sm"
                   >
                     Donate Now
-                    <span className="material-symbols-outlined text-[18px]">favorite</span>
+                    <span className="material-symbols-outlined text-[16px] sm:text-[18px]">favorite</span>
                   </Link>
                   <Link
                     to="/volunteer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/35 px-7 py-4 text-sm font-extrabold text-white transition hover:bg-white/10"
+                    className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-md border border-[#17142F]/25 bg-white/55 px-2 py-2.5 text-center text-[11px] font-extrabold leading-4 text-[#17142F] transition hover:border-[#C9A84C] hover:bg-white sm:px-7 sm:py-4 sm:text-sm"
                   >
-                    <span className="material-symbols-outlined text-[18px]">person_add</span>
+                    <span className="material-symbols-outlined hidden text-[18px] sm:inline-block">person_add</span>
                     Become a Volunteer
-                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    <span className="material-symbols-outlined text-[16px] sm:text-[18px]">arrow_forward</span>
                   </Link>
                 </div>
               </div>

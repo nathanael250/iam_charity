@@ -75,12 +75,12 @@ const ImpactStories = () => {
     <section className="py-20 md:py-24">
       <div className="container">
         <div className="mb-14 max-w-4xl">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-tertiary">Impact Stories</p>
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-tertiary">Our Impact</p>
           <h2 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-primary md:text-6xl">
             Stories that show what changes when help becomes personal.
           </h2>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-on-surface-variant">
-            These are not just project updates. Each story shows what life looked like before support, what changed
+            These are not just updates. Each story shows what life looked like before support, what changed
             during intervention, and what stability now means for a real family in Rwanda.
           </p>
         </div>

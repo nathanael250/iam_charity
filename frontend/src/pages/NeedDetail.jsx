@@ -1,68 +1,92 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import TopNav from "../components/TopNav";
-import helpNeeds from "../data/helpNeeds";
+import { projectImageService, projectService } from "../services/adminServices";
+import { getAssetUrl } from "../services/clientService";
+
+const formatMoney = (value, currency = "USD") =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(Number(value || 0));
 
 const NeedDetail = () => {
-  const { slug } = useParams();
-  const campaign = helpNeeds.find((item) => item.slug === slug);
+  const { slug: projectId } = useParams();
+  const [campaign, setCampaign] = useState(null);
+  const [gallery, setGallery] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (!campaign) {
-    return <Navigate to="/" replace />;
+  useEffect(() => {
+    Promise.all([projectService.get(projectId), projectImageService.list(projectId)])
+      .then(([project, images]) => {
+        setCampaign(project);
+        setGallery(images || []);
+        setError("");
+      })
+      .catch((requestError) => setError(requestError.message))
+      .finally(() => setIsLoading(false));
+  }, [projectId]);
+
+  if (isLoading) {
+    return <div className="flex min-h-screen items-center justify-center text-sm font-bold text-[#666276]">Loading support case...</div>;
   }
 
-  const progress = Math.round(
-    (parseInt(campaign.raised.replace(/[^0-9]/g, ""), 10) /
-      parseInt(campaign.goal.replace(/[^0-9]/g, ""), 10)) *
-      100
-  );
+  if (error || !campaign) {
+    return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center"><p className="font-bold text-[#666276]">{error || "Support case not found."}</p><Link to="/projects" className="font-extrabold text-[#C49B2E]">Back to People to Support</Link></div>;
+  }
+
+  const progress = Math.min(Number(campaign.progress || 0), 100);
+  const mainImage = campaign.main_image || gallery.find((image) => image.is_main)?.image_url || gallery[0]?.image_url;
 
   return (
     <>
       <TopNav />
 
       <div className="bg-surface text-on-surface selection:bg-tertiary-container selection:text-on-tertiary-container">
-        <main className="pt-24 pb-24">
+        <main className="pb-14 pt-20 sm:pb-20 sm:pt-24">
           <section className="container">
-            <div className="mb-8">
-              <Link className="text-sm font-semibold tracking-[0.16em] text-[#C9A84C] uppercase" to="/">
-                Back to Home
+            <div className="mb-4 sm:mb-7">
+              <Link className="text-xs font-bold uppercase tracking-[0.14em] text-[#C9A84C] sm:text-sm" to="/projects">
+                Back to People to Support
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="grid grid-cols-1 items-start gap-5 sm:gap-8 lg:grid-cols-12 lg:gap-10">
               <div className="lg:col-span-7">
-                <div className="relative overflow-hidden rounded-[28px] min-h-[420px]">
-                  <img className="absolute inset-0 w-full h-full object-cover" src={campaign.image} alt={campaign.title} />
+                <div className="relative min-h-[340px] overflow-hidden rounded-2xl bg-surface-container-low sm:min-h-[440px] sm:rounded-[28px] lg:min-h-[520px]">
+                  {mainImage ? <img className="absolute inset-0 h-full w-full object-cover" src={getAssetUrl(mainImage)} alt={campaign.title} /> : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A]/85 via-[#0B1F3A]/20 to-transparent" />
-                  <div className="absolute left-8 right-8 bottom-8 text-white">
-                    <p className="text-xs tracking-[0.24em] uppercase text-white/70 font-semibold mb-3">{campaign.region}</p>
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-4">{campaign.title}</h1>
-                    <p className="text-lg text-white/80 max-w-2xl leading-relaxed">{campaign.summary}</p>
+                  <div className="absolute bottom-5 left-5 right-5 text-white sm:bottom-8 sm:left-8 sm:right-8">
+                    <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/75 sm:mb-3 sm:text-xs sm:tracking-[0.24em]">{campaign.location || "Rwanda"}</p>
+                    <h1 className="mb-3 text-3xl font-black leading-[1.08] tracking-tight sm:mb-4 sm:text-4xl md:text-5xl">{campaign.title}</h1>
+                    <p className="max-w-2xl text-sm leading-6 text-white/85 sm:text-base sm:leading-7 md:text-lg">{campaign.short_description}</p>
                   </div>
                 </div>
               </div>
 
               <div className="lg:col-span-5">
-                <div className="bg-white rounded-[28px] border border-surface-container p-8 shadow-[0_24px_80px_rgba(27,14,61,0.08)]">
-                  <p className="text-xs font-bold tracking-[0.22em] uppercase text-[#C9A84C] mb-3">Current Need</p>
-                  <h2 className="text-3xl font-black tracking-tight text-primary mb-3">{campaign.family}</h2>
-                  <p className="text-on-surface-variant leading-relaxed mb-6">{campaign.location}</p>
+                <div className="rounded-2xl border border-surface-container bg-white p-5 shadow-[0_24px_80px_rgba(27,14,61,0.08)] sm:rounded-[28px] sm:p-8">
+                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] sm:mb-3 sm:text-xs sm:tracking-[0.22em]">Current Need</p>
+                  <h2 className="mb-2 text-2xl font-black tracking-tight text-primary sm:mb-3 sm:text-3xl">Support this need</h2>
+                  <p className="mb-5 text-sm leading-6 text-on-surface-variant sm:mb-6 sm:text-base">{campaign.location}</p>
 
-                  <div className="space-y-5 mb-8">
+                  <div className="mb-6 space-y-4 sm:mb-8 sm:space-y-5">
                     <div className="flex items-end justify-between gap-4">
                       <div>
                         <p className="text-sm text-on-surface-variant">Raised so far</p>
-                        <p className="text-3xl font-black text-primary">{campaign.raised}</p>
+                        <p className="text-2xl font-black text-primary sm:text-3xl">{formatMoney(campaign.raised_amount, campaign.currency || "USD")}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-on-surface-variant">Goal</p>
-                        <p className="text-xl font-bold text-primary">{campaign.goal}</p>
+                        <p className="text-lg font-bold text-primary sm:text-xl">{formatMoney(campaign.target_amount, campaign.currency || "USD")}</p>
                       </div>
                     </div>
 
                     <div>
-                      <div className="h-3 bg-surface-container rounded-full overflow-hidden">
+                      <div className="h-2.5 overflow-hidden rounded-full bg-surface-container sm:h-3">
                         <div className="h-full bg-[#C9A84C]" style={{ width: `${progress}%` }} />
                       </div>
                       <p className="mt-2 text-sm font-semibold text-[#C9A84C]">{progress}% funded</p>
@@ -71,7 +95,7 @@ const NeedDetail = () => {
 
                   <Link
                     to={`/donate?campaign=${campaign.slug}`}
-                    className="block w-full bg-[#C9822C] text-white font-bold tracking-[0.2em] text-sm px-6 py-4 rounded-md text-center"
+                    className="block w-full rounded-md bg-[#C9822C] px-5 py-3.5 text-center text-sm font-bold tracking-[0.12em] text-white sm:px-6 sm:py-4 sm:tracking-[0.2em]"
                   >
                     Donate to This Family
                   </Link>
@@ -80,41 +104,34 @@ const NeedDetail = () => {
             </div>
           </section>
 
-          <section className="container mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7 bg-white rounded-[28px] border border-surface-container p-8">
-              <p className="text-xs font-bold tracking-[0.22em] uppercase text-[#C9A84C] mb-3">Their Story</p>
-              <p className="text-lg leading-8 text-on-surface-variant">{campaign.story}</p>
+          <section className="container mt-8 grid grid-cols-1 gap-5 sm:mt-12 sm:gap-8 lg:grid-cols-12">
+            <div className="rounded-2xl border border-surface-container bg-white p-5 sm:rounded-[28px] sm:p-8 lg:col-span-7">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] sm:text-xs sm:tracking-[0.22em]">Their Story</p>
+              <p className="text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">{campaign.full_description || campaign.short_description}</p>
             </div>
 
-            <div className="lg:col-span-5 bg-white rounded-[28px] border border-surface-container p-8">
-              <p className="text-xs font-bold tracking-[0.22em] uppercase text-[#C9A84C] mb-5">Funding Priorities</p>
-              <div className="space-y-4">
-                {campaign.priorities.map((item) => (
-                  <div key={item} className="flex items-center justify-between rounded-2xl bg-surface-container-low px-5 py-4">
-                    <span className="font-semibold text-primary">{item}</span>
-                    <span className="material-symbols-outlined text-[#C9A84C]">check_circle</span>
-                  </div>
-                ))}
-              </div>
+            <div className="rounded-2xl border border-surface-container bg-white p-5 sm:rounded-[28px] sm:p-8 lg:col-span-5">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] sm:mb-5 sm:text-xs sm:tracking-[0.22em]">Support Information</p>
+              <p className="text-sm leading-6 text-on-surface-variant sm:text-base sm:leading-7">Your contribution helps this support case move toward its funding goal.</p>
             </div>
           </section>
 
-          <section className="container mt-16">
-            <div className="bg-white rounded-[28px] border border-surface-container p-8">
-              <p className="text-xs font-bold tracking-[0.22em] uppercase text-[#C9A84C] mb-6">More Images</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {campaign.gallery.map((image, index) => (
-                  <div key={`${campaign.slug}-gallery-${index}`} className="overflow-hidden rounded-3xl h-64 bg-surface-container-low">
+          {gallery.length > 0 ? <section className="container mt-8 sm:mt-12">
+            <div className="rounded-2xl border border-surface-container bg-white p-5 sm:rounded-[28px] sm:p-8">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] sm:mb-6 sm:text-xs sm:tracking-[0.22em]">More Images</p>
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3">
+                {gallery.map((image) => (
+                  <div key={image.id} className="h-36 overflow-hidden rounded-xl bg-surface-container-low sm:h-64 sm:rounded-3xl">
                     <img
                       className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      src={image}
-                      alt={`${campaign.title} gallery ${index + 1}`}
+                      src={getAssetUrl(image.image_url)}
+                      alt={image.caption || campaign.title}
                     />
                   </div>
                 ))}
               </div>
             </div>
-          </section>
+          </section> : null}
         </main>
 
         <Footer />

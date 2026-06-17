@@ -1,3 +1,5 @@
+require("./config/env");
+
 const express = require("express");
 const routes = require("./routes/master.routes");
 const { uploadsDir } = require("./config/paths");
@@ -49,6 +51,27 @@ app.use((_req, _res, next) => {
 });
 
 app.use((error, _req, res, _next) => {
+  if (error.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({
+      success: false,
+      message: "Each image must be 5 MB or smaller",
+    });
+  }
+
+  if (error.code === "LIMIT_FILE_COUNT") {
+    return res.status(400).json({
+      success: false,
+      message: "You can upload a maximum of 10 images at a time",
+    });
+  }
+
+  if (error.code === "LIMIT_UNEXPECTED_FILE") {
+    return res.status(400).json({
+      success: false,
+      message: "The image upload field is invalid or contains too many files",
+    });
+  }
+
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || "Internal server error",

@@ -1,212 +1,210 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import Footer from "../components/Footer";
 import TopNav from "../components/TopNav";
 import heroImage from "../assets/hello_sec-img_1.png";
+import { messageService } from "../services/adminServices";
 
-const contactCards = [
-  {
-    icon: "location_on",
-    title: "Our Location",
-    lines: ["KG 15 Ave, Nyarugenge", "P.O. Box 1234 Kigali", "Rwanda"],
-    action: "View on Google Maps",
-  },
+const initialForm = {
+  full_name: "",
+  email: "",
+  country_code: "+250",
+  phone: "",
+  subject: "",
+  message: "",
+};
+
+const contactDetails = [
   {
     icon: "call",
     title: "Call Us",
-    lines: ["+250 788 123 456", "+250 789 987 654", "", "Mon - Fri: 8:00 AM - 5:00 PM", "Saturday: 8:00 AM - 1:00 PM"],
+    content: (
+      <>
+        <a className="block hover:text-[#C49B2E]" href="tel:+250788123456">+250 788 123 456</a>
+        <a className="block hover:text-[#C49B2E]" href="tel:+250789987654">+250 789 987 654</a>
+      </>
+    ),
   },
   {
     icon: "mail",
     title: "Email Us",
-    lines: ["info@hopeandhomes.org", "support@hopeandhomes.org", "", "We aim to reply within", "24 hours."],
+    content: (
+      <>
+        <a className="block break-all hover:text-[#C49B2E]" href="mailto:info@iamgroup.org">info@iamgroup.org</a>
+        <span className="mt-2 block text-[#777386]">We aim to reply within 24 hours.</span>
+      </>
+    ),
+  },
+  {
+    icon: "groups",
+    title: "Where We Serve",
+    content: (
+      <>
+        <span className="block">We support vulnerable people and communities across Rwanda.</span>
+      </>
+    ),
   },
   {
     icon: "schedule",
-    title: "Office Hours",
-    lines: ["Monday - Friday", "8:00 AM - 5:00 PM", "Saturday", "8:00 AM - 1:00 PM", "Sunday: Closed"],
+    title: "Availability",
+    content: (
+      <>
+        <span className="block">Contact us by phone, email, or this form.</span>
+        <span className="block text-[#777386]">We will respond as soon as possible.</span>
+      </>
+    ),
   },
 ];
 
-const socials = [
-  { icon: "facebook", label: "Facebook", color: "text-[#1877F2]" },
-  { icon: "photo_camera", label: "Instagram", color: "text-[#E4405F]" },
-  { icon: "flutter_dash", label: "Twitter", color: "text-[#1DA1F2]" },
-  { icon: "smart_display", label: "YouTube", color: "text-[#FF0000]" },
-  { icon: "business_center", label: "LinkedIn", color: "text-[#0A66C2]" },
-];
+const fieldClass =
+  "mt-2 w-full rounded-lg border border-[#DDDDE3] bg-white px-4 text-sm font-semibold text-[#17142F] outline-none transition placeholder:text-[#8A8796] focus:border-[#C9A84C] focus:ring-2 focus:ring-[#C9A84C]/20";
 
 const Contact = () => {
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setStatus({ type: "", message: "" });
+
+    try {
+      await messageService.create({
+        ...form,
+        phone: form.phone ? `${form.country_code}${form.phone.replace(/^0+/, "")}` : "",
+      });
+      setForm(initialForm);
+      setStatus({ type: "success", message: "Thank you. Your message has been sent successfully." });
+    } catch (error) {
+      setStatus({ type: "error", message: error.message || "We could not send your message. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-[#17142F]">
       <TopNav />
 
       <main className="pt-[78px]">
-        <section className="relative overflow-hidden bg-[#17142F] text-white">
-          {/* <img
+        <section className="relative isolate overflow-hidden bg-[#F8F4ED]">
+          <img
             src={heroImage}
-            alt="Volunteer smiling with a child"
-            className="absolute inset-y-0 right-0 hidden h-full w-[58%] object-cover object-center opacity-90 md:block"
-          /> */}
-          <div className="absolute inset-0 hidden bg-gradient-to-r from-[#17142F] via-[#17142F]/92 via-50% to-[#17142F]/10 md:block" />
-          <div className="container relative z-10 grid min-h-[430px] items-center py-12 md:grid-cols-[0.92fr_1fr]">
-            <div>
-              <p className="text-[13px] font-extrabold uppercase tracking-wide text-[#C9A84C]">Get in Touch</p>
-              <h1 className="mt-5 max-w-[560px] text-[42px] font-extrabold leading-tight tracking-normal text-white md:text-[58px]">
-                We’d Love to Hear From You
-              </h1>
-              <div className="mt-4 h-[3px] w-14 bg-[#C9A84C]" />
-              <p className="mt-5 max-w-[430px] text-base font-semibold leading-8 text-white/82">
-                Have a question, want to partner with us, or need more information? We’re here to help. Your message can create real change.
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-y-0 right-0 -z-10 hidden h-full w-[54%] object-cover object-center opacity-[0.16] md:block"
+          />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#FBF8F3] via-[#FBF8F3]/95 to-[#FBF8F3]/45" />
+          <div className="container flex min-h-[210px] items-center py-8 sm:min-h-[270px] sm:py-10">
+            <div className="max-w-[590px]">
+              <p className="text-[11px] font-extrabold uppercase tracking-wide text-[#C49B2E] sm:text-[13px]">Contact Us</p>
+              <div className="mt-2 h-0.5 w-9 bg-[#C9A84C] sm:mt-4 sm:w-10" />
+              <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:mt-5 sm:text-5xl">Let’s Connect</h1>
+              <p className="mt-3 max-w-[520px] text-sm font-semibold leading-6 text-[#4F4B60] sm:mt-4 sm:text-base sm:leading-8">
+                Ask a question, discuss support, volunteer, or explore a partnership with I Am Group.
               </p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="#message-form"
-                  className="inline-flex items-center justify-center gap-3 rounded-md bg-[#C9A84C] px-7 py-4 text-sm font-extrabold text-white shadow-md shadow-black/15"
-                >
-                  <span className="material-symbols-outlined text-[18px]">mail</span>
-                  Send a Message
-                </a>
-                <a
-                  href="tel:+250788123456"
-                  className="inline-flex items-center justify-center gap-3 rounded-md border border-[#C9A84C] bg-white/5 px-7 py-4 text-sm font-extrabold text-white backdrop-blur-sm"
-                >
-                  <span className="material-symbols-outlined text-[18px]">call</span>
-                  Call Us
-                </a>
-              </div>
             </div>
           </div>
         </section>
 
-        
-
-        <section className="bg-white pt-8 pb-8">
-          <div className="container grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <article id="message-form" className="rounded-lg border border-[#EEE9DA] bg-white p-8 shadow-[0_14px_38px_rgba(17,14,47,0.06)]">
-              <h2 className="text-3xl font-extrabold">Send Us a Message</h2>
-              <div className="mt-3 h-[3px] w-12 bg-[#C9A84C]" />
-              <p className="mt-5 text-sm font-semibold text-[#4F4B60]">
+        <section className="bg-white py-7 sm:py-9 lg:py-11">
+          <div className="container grid gap-4 sm:gap-6 lg:grid-cols-[1.28fr_0.98fr]">
+            <article className="rounded-xl border border-[#E5E3E7] bg-white p-4 shadow-[0_12px_34px_rgba(17,14,47,0.07)] sm:p-8">
+              <h2 className="text-xl font-extrabold sm:text-2xl">Send Us a Message</h2>
+              <div className="mt-3 h-0.5 w-10 bg-[#C9A84C]" />
+              <p className="mt-3 text-xs font-semibold leading-5 text-[#5F5B6D] sm:mt-4 sm:text-sm sm:leading-6">
                 Fill out the form below and our team will get back to you as soon as possible.
               </p>
 
-              <form className="mt-8 grid gap-5">
-                <div className="grid gap-5 md:grid-cols-2">
-                  <label className="text-sm font-extrabold">
+              <form className="mt-5 grid gap-4 sm:mt-7 sm:gap-5" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-2 gap-3 sm:gap-5">
+                  <label className="text-xs font-extrabold sm:text-sm">
                     Full Name <span className="text-red-500">*</span>
-                    <input className="mt-2 h-12 w-full rounded-md border border-[#DCD6C9] px-4 text-sm font-semibold outline-none focus:border-[#C9A84C] focus:ring-[#C9A84C]" placeholder="Enter your full name" />
+                    <input name="full_name" value={form.full_name} onChange={updateField} required className={`${fieldClass} h-12`} placeholder="Enter your full name" />
                   </label>
-                  <label className="text-sm font-extrabold">
+                  <label className="text-xs font-extrabold sm:text-sm">
                     Email Address <span className="text-red-500">*</span>
-                    <input type="email" className="mt-2 h-12 w-full rounded-md border border-[#DCD6C9] px-4 text-sm font-semibold outline-none focus:border-[#C9A84C] focus:ring-[#C9A84C]" placeholder="Enter your email" />
+                    <input name="email" value={form.email} onChange={updateField} required type="email" className={`${fieldClass} h-12`} placeholder="Enter your email" />
                   </label>
                 </div>
-                <div className="grid gap-5 md:grid-cols-2">
-                  <label className="text-sm font-extrabold">
+
+                <div className="grid grid-cols-2 gap-3 sm:gap-5">
+                  <label className="text-xs font-extrabold sm:text-sm">
                     Phone Number
-                    <input className="mt-2 h-12 w-full rounded-md border border-[#DCD6C9] px-4 text-sm font-semibold outline-none focus:border-[#C9A84C] focus:ring-[#C9A84C]" placeholder="Enter your phone number" />
+                    <div className="mt-2 grid grid-cols-[82px_minmax(0,1fr)] gap-2 sm:grid-cols-[100px_minmax(0,1fr)]">
+                      <select name="country_code" value={form.country_code} onChange={updateField} aria-label="Country code" className="h-12 rounded-lg border border-[#DDDDE3] bg-white px-2 text-xs font-bold outline-none focus:border-[#C9A84C]">
+                        <option value="+250">RW +250</option>
+                        <option value="+256">UG +256</option>
+                        <option value="+255">TZ +255</option>
+                        <option value="+254">KE +254</option>
+                        <option value="+257">BI +257</option>
+                        <option value="+243">CD +243</option>
+                      </select>
+                      <input name="phone" value={form.phone} onChange={updateField} type="tel" inputMode="tel" className="h-12 min-w-0 rounded-lg border border-[#DDDDE3] bg-white px-3 text-xs font-semibold outline-none focus:border-[#C9A84C] sm:text-sm" placeholder="788 123 456" />
+                    </div>
                   </label>
-                  <label className="text-sm font-extrabold">
+                  <label className="text-xs font-extrabold sm:text-sm">
                     Subject <span className="text-red-500">*</span>
-                    <select className="mt-2 h-12 w-full rounded-md border border-[#DCD6C9] px-4 text-sm font-semibold outline-none focus:border-[#C9A84C] focus:ring-[#C9A84C]">
-                      <option>Select a subject</option>
-                      <option>Donation</option>
-                      <option>Volunteer</option>
-                      <option>Partnership</option>
+                    <select name="subject" value={form.subject} onChange={updateField} required className={`${fieldClass} h-12`}>
+                      <option value="" disabled>Select a subject</option>
+                      <option value="General inquiry">General inquiry</option>
+                      <option value="Donation">Donation</option>
+                      <option value="Volunteer">Volunteer</option>
+                      <option value="Partnership">Partnership</option>
+                      <option value="Other">Other</option>
                     </select>
                   </label>
                 </div>
-                <label className="text-sm font-extrabold">
+
+                <label className="text-xs font-extrabold sm:text-sm">
                   Message <span className="text-red-500">*</span>
-                  <textarea
-                    rows="6"
-                    className="mt-2 w-full resize-none rounded-md border border-[#DCD6C9] px-4 py-4 text-sm font-semibold outline-none focus:border-[#C9A84C] focus:ring-[#C9A84C]"
-                    placeholder="Type your message here..."
-                  />
+                  <textarea name="message" value={form.message} onChange={updateField} required rows="4" className={`${fieldClass} resize-none py-3`} placeholder="Type your message here..." />
                 </label>
-                <button type="button" className="inline-flex w-fit items-center gap-3 rounded-md bg-[#17142F] px-7 py-4 text-sm font-extrabold text-white">
+
+                {status.message ? (
+                  <p className={`rounded-lg px-4 py-3 text-sm font-bold ${status.type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`} role="status">
+                    {status.message}
+                  </p>
+                ) : null}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#17142F] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#17142F]/15 transition hover:bg-[#29234F] disabled:cursor-not-allowed disabled:opacity-65 sm:w-fit"
+                >
                   <span className="material-symbols-outlined text-[18px]">send</span>
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </article>
 
-            <article className="overflow-hidden rounded-lg border border-[#EEE9DA] bg-white shadow-[0_14px_38px_rgba(17,14,47,0.06)]">
-              <div className="p-8">
-                <h2 className="text-3xl font-extrabold">Find Us</h2>
-              </div>
-              <div className="relative h-[455px] overflow-hidden bg-[#EBE5D8]">
-                <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(28deg,transparent_46%,rgba(255,255,255,.9)_47%,rgba(255,255,255,.9)_49%,transparent_50%),linear-gradient(118deg,transparent_46%,rgba(255,255,255,.9)_47%,rgba(255,255,255,.9)_49%,transparent_50%),linear-gradient(0deg,rgba(201,168,76,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(20,17,45,.08)_1px,transparent_1px)] [background-size:170px_130px,210px_150px,48px_48px,48px_48px]" />
-                <div className="absolute left-1/2 top-[34%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full bg-[#17142F] text-white shadow-xl">
-                  <span className="material-symbols-outlined text-[40px]">location_on</span>
-                </div>
-                <div className="absolute bottom-9 left-9 right-9 rounded-lg bg-white p-7 shadow-[0_14px_38px_rgba(17,14,47,0.16)]">
-                  <div className="flex gap-5">
-                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#FBF7EF] text-[#C9A84C]">
-                      <span className="material-symbols-outlined text-[38px]">home</span>
+            <article className="rounded-xl border border-[#E5E3E7] bg-white p-4 shadow-[0_12px_34px_rgba(17,14,47,0.07)] sm:p-8">
+              <h2 className="text-xl font-extrabold sm:text-2xl">Contact Information</h2>
+              <div className="mt-3 h-0.5 w-10 bg-[#C9A84C]" />
+              <p className="mt-3 text-xs font-semibold text-[#5F5B6D] sm:mt-4 sm:text-sm">Choose the easiest way to reach us.</p>
+
+              <div className="mt-5 grid grid-cols-2 gap-4 sm:mt-7 sm:grid-cols-1 sm:gap-6">
+                {contactDetails.map((detail) => (
+                  <div key={detail.title} className="flex min-w-0 gap-3 sm:gap-5">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FBF6ED] text-[#C99C24] sm:h-14 sm:w-14 sm:rounded-xl">
+                      <span className="material-symbols-outlined text-[23px] sm:text-[30px]">{detail.icon}</span>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-extrabold">Visit Our Office</h3>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-[#4F4B60]">We welcome visitors by appointment. Come say hello!</p>
-                      <a href="#" className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#C49B2E]">
-                        Get Directions
-                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-                      </a>
+                    <div className="pt-0.5">
+                      <h3 className="text-xs font-extrabold sm:text-sm">{detail.title}</h3>
+                      <div className="mt-1 text-[10px] font-semibold leading-4 text-[#343044] sm:mt-2 sm:text-sm sm:leading-6">{detail.content}</div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </article>
           </div>
         </section>
 
-        <section className="bg-white py-8">
-          <div className="container grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {contactCards.map((card) => (
-              <article key={card.title} className="rounded-lg border border-[#EEE9DA] bg-white p-8 shadow-[0_14px_38px_rgba(17,14,47,0.06)]">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#FBF7EF] text-[#C9A84C]">
-                  <span className="material-symbols-outlined text-[36px]">{card.icon}</span>
-                </div>
-                <h2 className="mt-7 text-xl font-extrabold">{card.title}</h2>
-                <div className="mt-5 space-y-2 text-sm font-semibold leading-6 text-[#4F4B60]">
-                  {card.lines.map((line, index) => (line ? <p key={`${card.title}-${index}`}>{line}</p> : <div key={`${card.title}-${index}`} className="h-2" />))}
-                </div>
-                {card.action ? (
-                  <a href="#" className="mt-7 inline-flex items-center gap-2 text-sm font-extrabold text-[#C49B2E]">
-                    {card.action}
-                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-                  </a>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </section>
-
-
-        <section className="bg-white pb-8">
-          <div className="container">
-            <div className="rounded-lg bg-[#17142F] px-8 py-8 text-white shadow-[0_16px_44px_rgba(17,14,47,0.14)]">
-              <div className="grid gap-7 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full border border-[#C9A84C] text-[#C9A84C]">
-                  <span className="material-symbols-outlined text-[38px]">volunteer_activism</span>
-                </div>
-                <div>
-                  <h2 className="text-2xl font-extrabold">Together, we can build better futures.</h2>
-                  <p className="mt-2 text-sm font-semibold text-white/75">Your support brings hope and changes lives.</p>
-                </div>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Link to="/donate" className="inline-flex items-center justify-center gap-2 rounded-md bg-[#C9A84C] px-8 py-4 text-sm font-extrabold text-white">
-                    Donate Now
-                    <span className="material-symbols-outlined text-[18px]">favorite</span>
-                  </Link>
-                  <Link to="/volunteer" className="inline-flex items-center justify-center gap-2 rounded-md border border-white/35 px-8 py-4 text-sm font-extrabold text-white">
-                    <span className="material-symbols-outlined text-[18px]">groups</span>
-                    Become a Volunteer
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />

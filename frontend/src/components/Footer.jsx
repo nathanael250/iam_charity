@@ -7,10 +7,9 @@ const groups = [
     links: [
       ["Home", "/"],
       ["About Us", "/about"],
-      ["Projects", "/projects"],
-      ["Activities", "/activities"],
+      ["People to Support", "/projects"],
       ["Volunteer", "/volunteer"],
-      ["Impact Stories", "/impact-stories"],
+      ["Our Impact", "/impact-stories"],
       ["Contact", "/contact"],
     ],
   },
@@ -19,7 +18,7 @@ const groups = [
     links: [
       ["Donate Now", "/donate"],
       ["Become a Volunteer", "/volunteer"],
-      ["Active Projects", "/projects"],
+      ["People to Support", "/projects"],
       ["Ways to Give", "/donate"],
       ["Corporate Partnerships", "/contact"],
     ],
@@ -27,10 +26,10 @@ const groups = [
   {
     title: "Resources",
     links: [
-      ["Gallery", "/activities"],
-      ["Reports", "/activities"],
+      ["Impact Gallery", "/impact-stories"],
+      ["Our Results", "/impact-stories"],
       ["FAQs", "/contact"],
-      ["News & Updates", "/impact-stories"],
+      ["Stories of Change", "/impact-stories"],
     ],
   },
   {
@@ -45,27 +44,27 @@ const groups = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#14112D] pt-14 text-white">
+    <footer className="bg-[#14112D] pt-8 text-white sm:pt-14">
       <div className="container">
-        <div className="grid gap-10 border-b border-white/10 pb-12 lg:grid-cols-[1.15fr_repeat(4,1fr)]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-5 gap-y-8 border-b border-white/10 pb-8 sm:gap-10 sm:pb-12 lg:grid-cols-[1.15fr_repeat(4,1fr)]">
+          <div className="col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-3">
-              <img className="h-14 w-14 object-contain" src={logo} alt="Hope and Homes Foundation logo" />
+              <img className="h-11 w-11 object-contain sm:h-14 sm:w-14" src={logo} alt="I Am Group logo" />
               <div className="leading-tight">
-                <p className="text-base font-extrabold">Hope & Homes</p>
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-white/70">Foundation</p>
+                <p className="text-base font-extrabold">I Am Group</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#C9A84C]">Here am I. Send me.</p>
               </div>
             </Link>
-            <p className="mt-6 max-w-[260px] text-sm font-semibold leading-7 text-white/68">
-              We build homes, restore hope, and empower communities. Together, we create a better future.
+            <p className="mt-3 max-w-[420px] text-xs font-semibold leading-5 text-white/68 sm:mt-6 sm:max-w-[260px] sm:text-sm sm:leading-7">
+              Join us in sharing God’s love through compassionate care, practical support, and service to vulnerable people in Rwanda.
             </p>
-            <div className="mt-6 flex gap-3">
+            <div className="mt-4 flex gap-2 sm:mt-6 sm:gap-3">
               {["public", "photo_camera", "alternate_email", "smart_display"].map((icon) => (
                 <a
                   key={icon}
                   href="#"
                   aria-label={icon}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/18 text-white/80 transition hover:border-[#C9A84C] hover:text-[#C9A84C]"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/18 text-white/80 transition hover:border-[#C9A84C] hover:text-[#C9A84C] sm:h-10 sm:w-10"
                 >
                   <span className="material-symbols-outlined text-[19px]">{icon}</span>
                 </a>
@@ -76,9 +75,9 @@ export default function Footer() {
           {groups.map((group) => (
             <div key={group.title}>
               <h3 className="text-sm font-extrabold text-white">{group.title}</h3>
-              <div className="mt-5 space-y-3">
+              <div className="mt-3 space-y-2 sm:mt-5 sm:space-y-3">
                 {group.links.map(([label, to]) => (
-                  <Link key={`${group.title}-${label}`} to={to} className="block text-sm font-semibold text-white/64 transition hover:text-[#C9A84C]">
+                  <Link key={`${group.title}-${label}`} to={to} className="block text-xs font-semibold leading-5 text-white/64 transition hover:text-[#C9A84C] sm:text-sm">
                     {label}
                   </Link>
                 ))}
@@ -86,8 +85,8 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <p className="py-7 text-center text-xs font-semibold text-white/38">
-          © 2025 Hope & Homes Foundation. All rights reserved.
+        <p className="py-5 text-center text-[10px] font-semibold text-white/38 sm:py-7 sm:text-xs">
+          © {new Date().getFullYear()} I Am Group. All rights reserved.
         </p>
       </div>
     </footer>

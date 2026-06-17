@@ -14,8 +14,8 @@ const helpNeeds = [
     cta: "DONATE",
     family: "Mukandayisenga Family",
     location: "Bumbogo Sector, Gasabo District",
-    goal: "12,000,000 RWF",
-    raised: "7,800,000 RWF",
+    goal: "$9,000",
+    raised: "$5,850",
     summary:
       "A widow-led household of five is living in a damaged two-room structure with a leaking roof and unsafe flooring.",
     story:
@@ -31,8 +31,8 @@ const helpNeeds = [
     cta: "DONATE",
     family: "Uwase Family",
     location: "Gahanga Sector, Kicukiro District",
-    goal: "9,500,000 RWF",
-    raised: "4,100,000 RWF",
+    goal: "$7,100",
+    raised: "$3,050",
     summary:
       "A mother and three children need a stable home after displacement from a rental room that became unsafe and unaffordable.",
     story:
@@ -48,8 +48,8 @@ const helpNeeds = [
     cta: "DONATE",
     family: "Habimana Family",
     location: "Maraba Sector, Huye District",
-    goal: "10,800,000 RWF",
-    raised: "6,600,000 RWF",
+    goal: "$8,100",
+    raised: "$4,950",
     summary:
       "An elderly parent and two dependents need a structural restoration after storm damage weakened the walls and roof frame.",
     story:
@@ -65,8 +65,8 @@ const helpNeeds = [
     cta: "DONATE",
     family: "Niyonkuru Family",
     location: "Kinigi Sector, Musanze District",
-    goal: "14,000,000 RWF",
-    raised: "8,900,000 RWF",
+    goal: "$10,500",
+    raised: "$6,675",
     summary:
       "A large family near the volcanic belt needs urgent housing reinforcement and added rooms to reduce overcrowding.",
     story:

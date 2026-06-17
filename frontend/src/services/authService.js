@@ -1,3 +1,5 @@
+import { clientRequest } from "./clientService";
+
 const AUTH_STORAGE_KEY = "hope_homes_admin_session";
 
 export const authService = {
@@ -13,19 +15,22 @@ export const authService = {
     }
   },
 
-  isAuthenticated: () => Boolean(authService.getSession()),
+  isAuthenticated: () => {
+    const session = authService.getSession();
+    const expiresAt = new Date(session?.expiresAt).getTime();
+    if (!session?.token || !Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+      if (session) localStorage.removeItem(AUTH_STORAGE_KEY);
+      return false;
+    }
+    return true;
+  },
 
-  login: ({ email, password }) => {
+  login: async ({ email, password }) => {
     if (!email || !password) {
       throw new Error("Email and password are required.");
     }
 
-    const session = {
-      email,
-      name: email.split("@")[0] || "Admin User",
-      role: "Administrator",
-      loggedInAt: new Date().toISOString(),
-    };
+    const session = await clientRequest("login", { email: email.trim(), password });
 
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
     return session;

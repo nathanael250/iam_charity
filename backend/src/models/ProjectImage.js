@@ -17,6 +17,10 @@ class ProjectImage extends BaseModel {
   static async createMany(projectId, images) {
     const createdImages = [];
 
+    if (images.some((image) => image.is_main)) {
+      await query("UPDATE project_images SET is_main = FALSE WHERE project_id = ?", [projectId]);
+    }
+
     for (const image of images) {
       const createdImage = await this.create({
         project_id: projectId,

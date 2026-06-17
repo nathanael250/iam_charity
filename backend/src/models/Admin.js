@@ -25,6 +25,30 @@ class Admin extends BaseModel {
     return BaseModel.findById(this.tableName, id);
   }
 
+  static async findByEmail(email) {
+    const rows = await query(
+      `SELECT id, full_name, email, password_hash, role, status
+       FROM admins
+       WHERE LOWER(email) = LOWER(?)
+       LIMIT 1`,
+      [email]
+    );
+
+    return rows[0] || null;
+  }
+
+  static async updatePasswordHash(id, passwordHash) {
+    await query("UPDATE admins SET password_hash = ? WHERE id = ?", [passwordHash, id]);
+  }
+
+  static async recordLogin(id) {
+    try {
+      await query("UPDATE admins SET last_login_at = NOW() WHERE id = ?", [id]);
+    } catch (error) {
+      if (error.code !== "ER_BAD_FIELD_ERROR") throw error;
+    }
+  }
+
   static async list({ limit, offset, role, status }) {
     const safeLimit = this.safeLimit(limit);
     const safeOffset = this.safeOffset(offset);

@@ -6,6 +6,17 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "seed:admin": "node src/scripts/seedAdmin.js",
+    "migrate:volunteer-image": "node src/scripts/addVolunteerImageColumn.js",
+    "migrate:impact-updates": "node src/scripts/migrateImpactUpdates.js",
+    "migrate:impact-gallery": "node src/scripts/migrateImpactGallery.js",
+    "migrate:impact-statistics": "node src/scripts/migrateImpactStatistics.js",
+    "migrate:home-impact": "node src/scripts/migrateHomeImpactSection.js",
+    "migrate:home-testimonials": "node src/scripts/migrateHomeTestimonials.js",
+    "migrate:about-impact": "node src/scripts/migrateAboutImpactSection.js",
+    "migrate:impact-page-cms": "node src/scripts/migrateImpactPageCms.js",
+    "migrate:cleanup-unused-tables": "node src/scripts/cleanupUnusedTables.js",
+    "seed:impact-stories": "node src/scripts/seedImpactStories.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

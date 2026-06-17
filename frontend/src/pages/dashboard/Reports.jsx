@@ -4,7 +4,7 @@ import { donationService, projectService, volunteerService } from "../../service
 const formatMoney = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "RWF",
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(Number(value || 0));
 
