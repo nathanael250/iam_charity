@@ -36,6 +36,22 @@ export const authService = {
     return session;
   },
 
+  updateSessionUser: (user) => {
+    const session = authService.getSession();
+    if (!session) return null;
+
+    const nextSession = {
+      ...session,
+      user: {
+        ...(session.user || {}),
+        ...user,
+      },
+    };
+
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(nextSession));
+    return nextSession;
+  },
+
   logout: () => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
   },

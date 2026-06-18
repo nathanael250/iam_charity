@@ -37,20 +37,22 @@ const formatDate = (date) => {
 const getTimestamp = (item) => new Date(item.created_at || 0).getTime();
 
 const MetricCard = ({ item }) => (
-  <article className={`rounded-xl border border-[#E2E6EE] bg-gradient-to-br ${item.tint} p-6 shadow-sm`}>
-    <div className={`flex h-14 w-14 items-center justify-center rounded-xl ${item.iconBg} ${item.iconText}`}>
-      <span className="material-symbols-outlined text-[32px]">{item.icon}</span>
+  <article className={`flex items-center gap-4 rounded-lg border border-[#E2E6EE] bg-gradient-to-br ${item.tint} p-4 shadow-sm sm:block sm:rounded-xl sm:p-6`}>
+    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg sm:h-14 sm:w-14 sm:rounded-xl ${item.iconBg} ${item.iconText}`}>
+      <span className="material-symbols-outlined text-[28px] sm:text-[32px]">{item.icon}</span>
     </div>
-    <p className="mt-5 text-3xl font-extrabold text-[#07142D]">{item.value}</p>
-    <p className="mt-2 text-base font-bold text-[#07142D]">{item.label}</p>
-    <p className="mt-3 text-sm font-semibold text-[#687083]">{item.detail}</p>
+    <div className="min-w-0">
+      <p className="text-2xl font-extrabold leading-none text-[#07142D] sm:mt-5 sm:text-3xl">{item.value}</p>
+      <p className="mt-1 text-sm font-extrabold leading-5 text-[#07142D] sm:mt-2 sm:text-base sm:font-bold">{item.label}</p>
+      <p className="mt-1 text-xs font-semibold leading-5 text-[#687083] sm:mt-3 sm:text-sm">{item.detail}</p>
+    </div>
   </article>
 );
 
 const Card = ({ title, action, children }) => (
-  <section className="rounded-xl border border-[#E2E6EE] bg-white p-5 shadow-sm sm:p-6">
-    <div className="mb-6 flex items-center justify-between gap-4">
-      <h2 className="text-xl font-extrabold text-[#07142D]">{title}</h2>
+  <section className="rounded-lg border border-[#E2E6EE] bg-white p-4 shadow-sm sm:rounded-xl sm:p-6">
+    <div className="mb-4 flex items-center justify-between gap-3 sm:mb-6 sm:gap-4">
+      <h2 className="text-lg font-extrabold text-[#07142D] sm:text-xl">{title}</h2>
       {action}
     </div>
     {children}
@@ -58,8 +60,8 @@ const Card = ({ title, action, children }) => (
 );
 
 const EmptyState = ({ icon = "inbox", title, text }) => (
-  <div className="flex min-h-40 flex-col items-center justify-center rounded-lg border border-dashed border-[#DDE2EA] bg-[#FAFBFC] px-5 py-8 text-center">
-    <span className="material-symbols-outlined text-[34px] text-[#C49B2E]">{icon}</span>
+  <div className="flex min-h-32 flex-col items-center justify-center rounded-lg border border-dashed border-[#DDE2EA] bg-[#FAFBFC] px-4 py-6 text-center sm:min-h-40 sm:px-5 sm:py-8">
+    <span className="material-symbols-outlined text-[30px] text-[#C49B2E] sm:text-[34px]">{icon}</span>
     <p className="mt-3 font-extrabold text-[#07142D]">{title}</p>
     <p className="mt-1 max-w-sm text-sm font-semibold text-[#687083]">{text}</p>
   </div>
@@ -74,26 +76,26 @@ const StatusOverview = ({ counts, total }) => {
   ];
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between rounded-lg border border-[#E7EAF0] bg-[#F8FAFD] px-4 py-3">
+    <div className="space-y-4 sm:space-y-5">
+      <div className="flex items-center justify-between rounded-lg border border-[#E7EAF0] bg-[#F8FAFD] px-3 py-3 sm:px-4">
         <div>
           <p className="text-sm font-extrabold text-[#07142D]">Total support cases</p>
           <p className="mt-1 text-xs font-semibold text-[#687083]">Current publishing and workflow status</p>
         </div>
-        <span className="text-3xl font-extrabold text-[#07142D]">{total}</span>
+        <span className="text-2xl font-extrabold text-[#07142D] sm:text-3xl">{total}</span>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-2 sm:gap-3">
         {rows.map((row) => (
           <Link
             key={row.key}
             to={`/admin/projects?status=${row.key}`}
-            className={`flex items-center justify-between rounded-lg border px-4 py-4 transition hover:-translate-y-0.5 hover:shadow-sm ${row.className}`}
+            className={`flex items-center justify-between rounded-lg border px-3 py-3 transition hover:-translate-y-0.5 hover:shadow-sm sm:px-4 sm:py-4 ${row.className}`}
           >
             <span className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[24px]">{row.icon}</span>
+              <span className="material-symbols-outlined text-[22px] sm:text-[24px]">{row.icon}</span>
               <span className="text-sm font-extrabold">{row.label}</span>
             </span>
-            <span className="text-2xl font-extrabold">{row.value}</span>
+            <span className="text-xl font-extrabold sm:text-2xl">{row.value}</span>
           </Link>
         ))}
       </div>
@@ -105,7 +107,7 @@ const EngagementBars = ({ items }) => {
   const maximum = Math.max(...items.map((item) => item.value), 1);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       {items.map((item) => (
         <div key={item.label}>
           <div className="mb-2 flex items-center justify-between gap-4 text-sm">
@@ -235,7 +237,7 @@ const Dashboard = () => {
   }, [dashboardData]);
 
   return (
-    <>
+    <div className="pb-28 sm:pb-0">
       {loadError ? (
         <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-sm font-bold text-red-700">
           The dashboard could not connect to the backend. No sample data is being shown. {loadError}
@@ -247,14 +249,14 @@ const Dashboard = () => {
         </div>
       ) : null}
 
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
         {computed.metrics.map((metric) => <MetricCard key={metric.label} item={metric} />)}
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-2">
+      <div className="mt-5 grid gap-5 sm:mt-6 sm:gap-6 xl:grid-cols-2">
         <Card
           title="Support Case Status"
-          action={<Link to="/admin/projects" className="inline-flex items-center gap-1 rounded-lg border border-[#E7EAF0] px-3 py-2 text-sm font-extrabold text-[#07142D] transition hover:border-[#D0A733] hover:text-[#C48609]">Manage cases<span className="material-symbols-outlined text-[17px]">arrow_forward</span></Link>}
+          action={<Link to="/admin/projects" className="inline-flex h-9 items-center gap-1 rounded-lg border border-[#E7EAF0] px-3 text-xs font-extrabold text-[#07142D] transition hover:border-[#D0A733] hover:text-[#C48609] sm:text-sm">Manage<span className="hidden sm:inline"> cases</span><span className="material-symbols-outlined text-[17px]">arrow_forward</span></Link>}
         >
           <StatusOverview counts={computed.counts} total={dashboardData.projects.length} />
         </Card>
@@ -263,7 +265,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <div className="mt-5 grid gap-5 sm:mt-6 sm:gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card
           title="Recent Donations"
           action={<Link to="/admin/donations" className="text-sm font-extrabold text-[#C48609]">View all</Link>}
@@ -302,11 +304,11 @@ const Dashboard = () => {
 
         <Card title="Recent Activity">
           {computed.activities.length ? (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {computed.activities.map((activity) => (
-                <div key={activity.id} className="grid grid-cols-[44px_1fr] gap-4 border-b border-[#EEF1F5] pb-4 last:border-0 last:pb-0">
-                  <div className={`flex h-11 w-11 items-center justify-center rounded-full ${activity.bg} ${activity.color}`}>
-                    <span className="material-symbols-outlined text-[23px]">{activity.icon}</span>
+                <div key={activity.id} className="grid grid-cols-[40px_1fr] gap-3 border-b border-[#EEF1F5] pb-3 last:border-0 last:pb-0 sm:grid-cols-[44px_1fr] sm:gap-4 sm:pb-4">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full sm:h-11 sm:w-11 ${activity.bg} ${activity.color}`}>
+                    <span className="material-symbols-outlined text-[22px] sm:text-[23px]">{activity.icon}</span>
                   </div>
                   <div className="min-w-0">
                     <p className="font-extrabold text-[#07142D]">{activity.title}</p>
@@ -322,7 +324,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-5 sm:mt-6">
         <Card
           title="Support Cases by Progress"
           action={<Link to="/admin/projects" className="text-sm font-extrabold text-[#C48609]">View all</Link>}
@@ -330,12 +332,12 @@ const Dashboard = () => {
           {computed.topProjects.length ? (
             <div className="grid gap-4 lg:grid-cols-2">
               {computed.topProjects.map((project) => (
-                <Link key={project.id} to={`/admin/projects/${project.id}`} className="grid grid-cols-[72px_1fr_auto] items-center gap-4 rounded-lg border border-[#EEF1F5] p-3 transition hover:border-[#D0A733]">
+                <Link key={project.id} to={`/admin/projects/${project.id}`} className="grid grid-cols-[56px_1fr_auto] items-center gap-3 rounded-lg border border-[#EEF1F5] p-3 transition hover:border-[#D0A733] sm:grid-cols-[72px_1fr_auto] sm:gap-4">
                   {project.main_image ? (
-                    <img src={getAssetUrl(project.main_image)} alt="" className="h-16 w-[72px] rounded-lg object-cover" />
+                    <img src={getAssetUrl(project.main_image)} alt="" className="h-14 w-14 rounded-lg object-cover sm:h-16 sm:w-[72px]" />
                   ) : (
-                    <div className="flex h-16 w-[72px] items-center justify-center rounded-lg bg-[#FFF8EC] text-[#C49B2E]">
-                      <span className="material-symbols-outlined text-[28px]">campaign</span>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-[#FFF8EC] text-[#C49B2E] sm:h-16 sm:w-[72px]">
+                      <span className="material-symbols-outlined text-[24px] sm:text-[28px]">campaign</span>
                     </div>
                   )}
                   <div className="min-w-0">
@@ -347,7 +349,7 @@ const Dashboard = () => {
                       {formatMoney(project.raised_amount)} of {formatMoney(project.target_amount)}
                     </p>
                   </div>
-                  <p className="font-extrabold text-[#07142D]">{Number(project.progress || 0)}%</p>
+                  <p className="text-sm font-extrabold text-[#07142D] sm:text-base">{Number(project.progress || 0)}%</p>
                 </Link>
               ))}
             </div>
@@ -358,7 +360,7 @@ const Dashboard = () => {
       </div>
 
       <p className="py-8 text-center text-sm font-semibold text-[#7A8190]">I Am Group Rwanda administration dashboard</p>
-    </>
+    </div>
   );
 };
 

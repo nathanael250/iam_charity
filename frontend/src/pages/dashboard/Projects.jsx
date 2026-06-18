@@ -80,20 +80,20 @@ const Projects = () => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 pb-28 sm:pb-0">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-extrabold text-[#07142D] sm:text-3xl">Support Cases</h1>
+        <h1 className="text-[2rem] font-extrabold leading-tight text-[#07142D] sm:text-3xl">Support Cases</h1>
         <Link
           to="/admin/projects/new"
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#D0A733] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#B98F1E]"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#D0A733] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#B98F1E] sm:w-auto"
         >
           <span className="material-symbols-outlined text-[20px]">add</span>
           Add Support Case
         </Link>
       </div>
 
-      <section className="rounded-xl border border-[#E2E6EE] bg-white p-3 shadow-sm sm:p-4">
-        <div className="flex flex-col gap-4 md:flex-row">
+      <section className="rounded-lg border border-[#E2E6EE] bg-white p-3 shadow-sm sm:p-4">
+        <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
           <label className="relative flex-1">
             <span className="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-[#9AA3B3]">
               search
@@ -105,12 +105,12 @@ const Projects = () => {
               placeholder="Search support cases..."
             />
           </label>
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[22px] text-[#687083]">filter_list</span>
+          <div className="grid grid-cols-[auto_1fr_1fr] items-center gap-2 sm:flex sm:gap-3">
+            <span className="material-symbols-outlined flex h-11 w-11 items-center justify-center text-[22px] text-[#687083]">filter_list</span>
             <select
               value={status}
               onChange={(event) => setStatus(event.target.value)}
-              className="h-11 rounded-lg border border-[#DDE2EA] bg-white px-4 text-sm font-semibold text-[#07142D] outline-none transition focus:border-[#D0A733] focus:ring-2 focus:ring-[#F3E3B4]"
+              className="h-11 min-w-0 rounded-lg border border-[#DDE2EA] bg-white px-3 text-sm font-semibold text-[#07142D] outline-none transition focus:border-[#D0A733] focus:ring-2 focus:ring-[#F3E3B4] sm:px-4"
             >
               <option value="">All Status</option>
               <option value="draft">Draft</option>
@@ -121,7 +121,7 @@ const Projects = () => {
             <button
               type="button"
               onClick={loadProjects}
-              className="h-11 rounded-lg border border-[#DDE2EA] px-4 text-sm font-extrabold text-[#07142D] transition hover:border-[#D0A733] hover:text-[#B98F1E]"
+              className="h-11 rounded-lg border border-[#DDE2EA] px-3 text-sm font-extrabold text-[#07142D] transition hover:border-[#D0A733] hover:text-[#B98F1E] sm:px-4"
             >
               Refresh
             </button>
@@ -135,16 +135,16 @@ const Projects = () => {
         </div>
       ) : null}
 
-      <section className="grid gap-6 lg:grid-cols-2">
+      <section className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {filteredProjects.map((project) => {
           const progress = Math.min(Number(project.progress || 0), 100);
 
           return (
-            <article key={project.id} className="rounded-xl border border-[#E2E6EE] bg-white p-6 shadow-sm">
-              <div className="flex items-start justify-between gap-4">
+            <article key={project.id} className="rounded-lg border border-[#E2E6EE] bg-white p-4 shadow-sm sm:p-6">
+              <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <h3 className="text-lg font-extrabold text-[#07142D]">{project.title}</h3>
-                  <p className="mt-1 text-sm font-semibold text-[#687083]">
+                  <h3 className="text-base font-extrabold leading-7 text-[#07142D] sm:text-lg">{project.title}</h3>
+                  <p className="mt-1 text-sm font-semibold leading-5 text-[#687083]">
                     {categoryLabels[project.category] || "Project"} {project.location ? `- ${project.location}` : ""}
                   </p>
                 </div>
@@ -153,14 +153,14 @@ const Projects = () => {
                 </span>
               </div>
 
-              <p className="mt-4 min-h-[44px] overflow-hidden text-sm font-semibold leading-6 text-[#687083]">
+              <p className="mt-3 line-clamp-3 min-h-0 overflow-hidden text-sm font-semibold leading-6 text-[#687083] sm:mt-4 sm:min-h-[44px]">
                 {project.short_description || "No project description has been added yet."}
               </p>
 
-              <div className="mt-5">
-                <div className="mb-2 flex justify-between gap-4 text-sm">
+              <div className="mt-4 sm:mt-5">
+                <div className="mb-2 flex items-start justify-between gap-3 text-sm">
                   <span className="font-semibold text-[#687083]">Funding Progress</span>
-                  <span className="font-extrabold text-[#07142D]">
+                  <span className="shrink-0 text-right font-extrabold text-[#07142D]">
                     {formatMoney(project.raised_amount)} / {formatMoney(project.target_amount)}
                   </span>
                 </div>
@@ -170,7 +170,7 @@ const Projects = () => {
                 <p className="mt-2 text-xs font-bold text-[#687083]">{Math.round(progress)}% funded</p>
               </div>
 
-              <div className="mt-5 flex items-center justify-between border-t border-[#EEF1F5] pt-4">
+              <div className="mt-4 flex items-center justify-between border-t border-[#EEF1F5] pt-4 sm:mt-5">
                 <p className="text-sm font-semibold text-[#687083]">{Number(project.updates_count || 0)} updates</p>
                 <div className="flex items-center gap-2">
                   <Link

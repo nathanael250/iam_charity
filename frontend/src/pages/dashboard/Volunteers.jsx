@@ -69,14 +69,14 @@ const Volunteers = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 pb-28 sm:space-y-6 sm:pb-0">
       <div>
-        <h1 className="text-3xl font-extrabold text-[#07142D]">Volunteer Management</h1>
-        <p className="mt-2 text-sm font-semibold text-[#687083]">Review volunteer applications, skills, and approval status.</p>
+        <h1 className="text-[2rem] font-extrabold leading-tight text-[#07142D] sm:text-3xl">Volunteer Management</h1>
+        <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#687083]">Review volunteer applications, skills, and approval status.</p>
       </div>
 
-      <section className="rounded-xl border border-[#E2E6EE] bg-white p-4 shadow-sm">
-        <div className="flex flex-col gap-4 md:flex-row">
+      <section className="rounded-lg border border-[#E2E6EE] bg-white p-3 shadow-sm sm:rounded-xl sm:p-4">
+        <div className="grid gap-3 md:grid-cols-[1fr_220px_auto] md:items-center">
           <label className="relative flex-1">
             <span className="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-[#9AA3B3]">search</span>
             <input
@@ -86,7 +86,7 @@ const Volunteers = () => {
               placeholder="Search volunteers..."
             />
           </label>
-          <select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded-lg border border-[#DDE2EA] px-4 text-sm font-semibold">
+          <select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 w-full rounded-lg border border-[#DDE2EA] bg-white px-4 text-sm font-semibold">
             <option value="">All Status</option>
             <option value="pending">Pending</option>
             <option value="contacted">Contacted</option>
@@ -100,16 +100,105 @@ const Volunteers = () => {
 
       {error ? <div className="rounded-lg border border-[#F2D99A] bg-[#FFF8EC] px-5 py-4 text-sm font-bold text-[#8A6400]">{error}</div> : null}
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {stats.map((item) => (
-          <article key={item.label} className="rounded-lg border border-[#E2E6EE] bg-white p-5 shadow-sm">
-            <p className="text-2xl font-extrabold text-[#07142D]">{item.value}</p>
-            <p className="mt-1 text-sm font-semibold text-[#687083]">{item.label}</p>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+        {stats.map((item, index) => (
+          <article key={item.label} className={["rounded-lg border border-[#E2E6EE] bg-white p-4 shadow-sm sm:p-5", index === 2 ? "col-span-2 sm:col-span-1" : ""].join(" ")}>
+            <p className="text-2xl font-extrabold leading-none text-[#07142D]">{item.value}</p>
+            <p className="mt-2 text-sm font-semibold text-[#687083] sm:mt-1">{item.label}</p>
           </article>
         ))}
       </div>
 
-      <section className="overflow-hidden rounded-xl border border-[#E2E6EE] bg-white shadow-sm">
+      <div className="grid gap-3 md:hidden">
+        {isLoading ? <MobileEmptyCard text="Loading volunteers..." /> : null}
+        {!isLoading && !filtered.length ? <MobileEmptyCard text="No volunteers found." /> : null}
+        {!isLoading ? filtered.map((volunteer) => {
+          const isExpanded = expandedVolunteerId === volunteer.id;
+
+          return (
+            <article key={volunteer.id} className="max-w-full overflow-hidden rounded-lg border border-[#E2E6EE] bg-white p-4 shadow-sm">
+              <div className="grid grid-cols-[44px_minmax(0,1fr)] gap-3">
+                {volunteer.image_url ? (
+                  <img src={getAssetUrl(volunteer.image_url)} alt={volunteer.full_name} className="h-11 w-11 shrink-0 rounded-full object-cover" />
+                ) : (
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EEF1F5] text-sm font-extrabold text-[#536078]">
+                    {volunteer.full_name?.charAt(0)?.toUpperCase() || "V"}
+                  </span>
+                )}
+                <div className="min-w-0 flex-1">
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate text-base font-extrabold leading-6 text-[#07142D]">{volunteer.full_name}</p>
+                      <p className="mt-1 truncate text-xs font-semibold text-[#687083]">{volunteer.email || "No email"}</p>
+                    </div>
+                    <span className={["max-w-[96px] shrink-0 truncate rounded-full px-3 py-1 text-xs font-extrabold capitalize", statusStyles[volunteer.status] || statusStyles.pending].join(" ")}>
+                      {volunteer.status || "pending"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <dt className="text-xs font-extrabold uppercase tracking-wide text-[#8A93A3]">Phone</dt>
+                  <dd className="mt-1 break-words font-semibold text-[#536078]">{volunteer.phone || "-"}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-extrabold uppercase tracking-wide text-[#8A93A3]">Support Type</dt>
+                  <dd className="mt-1 line-clamp-2 capitalize font-semibold text-[#536078]">{formatVolunteerType(volunteer.volunteer_type)}</dd>
+                </div>
+                <div className="col-span-2">
+                  <dt className="text-xs font-extrabold uppercase tracking-wide text-[#8A93A3]">Skills</dt>
+                  <dd className="mt-1 line-clamp-2 font-semibold leading-5 text-[#536078]">{volunteer.skills || "Not provided"}</dd>
+                </div>
+              </dl>
+
+              {isExpanded ? (
+                <div className="mt-4 space-y-3 rounded-lg bg-[#FBFCFE] p-3 text-sm">
+                  <Detail label="Address" value={volunteer.address || "Not provided"} />
+                  <Detail label="Availability" value={volunteer.availability || "Not provided"} />
+                  <Detail label="Message" value={volunteer.message || "No message provided"} />
+                  <Detail label="Submitted" value={volunteer.created_at ? new Date(volunteer.created_at).toLocaleDateString() : "-"} />
+                </div>
+              ) : null}
+
+              <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-t border-[#EEF1F5] pt-3">
+                <button
+                  type="button"
+                  onClick={() => setExpandedVolunteerId((current) => current === volunteer.id ? null : volunteer.id)}
+                  title={isExpanded ? "Hide details" : "View details"}
+                  className="inline-flex h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#DDE2EA] px-3 text-sm font-extrabold text-[#071B36] transition hover:bg-[#F3F6FA]"
+                >
+                  <span className="material-symbols-outlined text-[19px]">{isExpanded ? "visibility_off" : "visibility"}</span>
+                  <span className="truncate">{isExpanded ? "Hide Details" : "View Details"}</span>
+                </button>
+                {volunteer.status === "pending" ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => updateStatus(volunteer, "approved")}
+                      title="Approve volunteer"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#E5F6EA] text-[#2E7D42] transition hover:bg-[#D7F0DF]"
+                    >
+                      <span className="material-symbols-outlined text-[19px]">check</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => updateStatus(volunteer, "rejected")}
+                      title="Reject volunteer"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100"
+                    >
+                      <span className="material-symbols-outlined text-[19px]">close</span>
+                    </button>
+                  </>
+                ) : null}
+              </div>
+            </article>
+          );
+        }) : null}
+      </div>
+
+      <section className="hidden overflow-hidden rounded-xl border border-[#E2E6EE] bg-white shadow-sm md:block">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1050px] text-left text-sm">
             <thead className="border-b border-[#E7EAF0] bg-[#F8FAFD] text-xs uppercase tracking-wide text-[#687083]">
@@ -242,5 +331,18 @@ const Volunteers = () => {
     </div>
   );
 };
+
+const Detail = ({ label, value }) => (
+  <div>
+    <p className="text-xs font-extrabold uppercase tracking-wide text-[#8A93A3]">{label}</p>
+    <p className="mt-1 whitespace-pre-wrap font-semibold leading-5 text-[#536078]">{value}</p>
+  </div>
+);
+
+const MobileEmptyCard = ({ text }) => (
+  <div className="rounded-lg border border-dashed border-[#DDE2EA] bg-white p-6 text-center text-sm font-bold text-[#687083]">
+    {text}
+  </div>
+);
 
 export default Volunteers;

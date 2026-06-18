@@ -124,6 +124,56 @@ export const impactPageStatisticService = {
   update: (id, payload) => clientRequest("update_impact_page_statistic", { id, ...payload }),
 };
 
+export const resourceSummaryService = {
+  get: () => clientRequest("get_resource_summary"),
+};
+
+export const settingsService = {
+  getProfile: () => clientRequest("get_admin_profile"),
+  updateProfile: (payload) => clientRequest("update_admin_profile", payload),
+  updatePassword: (payload) => clientRequest("update_admin_password", payload),
+  getNotifications: () => clientRequest("get_notification_settings"),
+  updateNotifications: (payload) => clientRequest("update_notification_settings", payload),
+};
+
+export const beneficiaryService = {
+  list: (params = {}) => clientRequest("list_beneficiaries", params),
+  get: (id) => clientRequest("get_beneficiary", { id }),
+  create: (payload) => clientRequest("create_beneficiary", payload),
+  update: (id, payload) => clientRequest("update_beneficiary", { id, ...payload }),
+  remove: (id) => clientRequest("delete_beneficiary", { id }),
+};
+
+export const materialUnitService = {
+  list: (params = {}) => clientRequest("list_material_units", params),
+  create: (payload) => clientRequest("create_material_unit", payload),
+  update: (id, payload) => clientRequest("update_material_unit", { id, ...payload }),
+  remove: (id) => clientRequest("delete_material_unit", { id }),
+};
+
+export const materialUsedService = {
+  list: (params = {}) => clientRequest("list_materials_used", params),
+  get: (id) => clientRequest("get_material_used", { id }),
+  create: (payload) => clientRequest("create_material_used", payload),
+  update: (id, payload) => clientRequest("update_material_used", { id, ...payload }),
+  remove: (id) => clientRequest("delete_material_used", { id }),
+};
+
+export const expenseCategoryService = {
+  list: (params = {}) => clientRequest("list_expense_categories", params),
+  create: (payload) => clientRequest("create_expense_category", payload),
+  update: (id, payload) => clientRequest("update_expense_category", { id, ...payload }),
+  remove: (id) => clientRequest("delete_expense_category", { id }),
+};
+
+export const expenseService = {
+  list: (params = {}) => clientRequest("list_expenses", params),
+  get: (id) => clientRequest("get_expense", { id }),
+  create: (payload) => clientRequest("create_expense", payload),
+  update: (id, payload) => clientRequest("update_expense", { id, ...payload }),
+  remove: (id) => clientRequest("delete_expense", { id }),
+};
+
 export const donationService = {
   list: (params = {}) => clientRequest("list_donations", params),
   get: (id) => clientRequest("get_donation", { id }),

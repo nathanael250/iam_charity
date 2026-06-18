@@ -17,6 +17,11 @@ const commandMap = {
   [commands.CREATE_ADMIN]: { handler: masterController.createAdmin },
   [commands.UPDATE_ADMIN]: { idSource: "id", handler: masterController.updateAdmin },
   [commands.DELETE_ADMIN]: { idSource: "id", handler: masterController.deleteAdmin },
+  [commands.GET_ADMIN_PROFILE]: { handler: masterController.getAdminProfile },
+  [commands.UPDATE_ADMIN_PROFILE]: { handler: masterController.updateAdminProfile },
+  [commands.UPDATE_ADMIN_PASSWORD]: { handler: masterController.updateAdminPassword },
+  [commands.GET_NOTIFICATION_SETTINGS]: { handler: masterController.getNotificationSettings },
+  [commands.UPDATE_NOTIFICATION_SETTINGS]: { handler: masterController.updateNotificationSettings },
 
   [commands.LIST_PROJECTS]: { public: true, handler: masterController.listProjects },
   [commands.GET_PROJECT]: { public: true, idSource: "id", handler: masterController.getProject },

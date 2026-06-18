@@ -15,11 +15,12 @@ class MaterialUsed extends BaseModel {
   static async create(payload) {
     const result = await query(
       `INSERT INTO materials_used
-        (beneficiary_id, material_name, category, quantity, unit_id, unit_cost, currency,
+        (project_id, beneficiary_id, material_name, category, quantity, unit_id, unit_cost, currency,
          date_used, notes, created_by)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        payload.beneficiary_id,
+        payload.project_id,
+        payload.beneficiary_id || null,
         payload.material_name,
         normalizeCategory(payload.category),
         Math.max(Number(payload.quantity) || 0, 0),
@@ -36,9 +37,10 @@ class MaterialUsed extends BaseModel {
 
   static async findById(id) {
     const rows = await query(
-      `SELECT m.*, b.display_name AS beneficiary_name, u.unit_name, u.unit_code
+      `SELECT m.*, p.title AS project_title, b.display_name AS beneficiary_name, u.unit_name, u.unit_code
        FROM materials_used m
-       INNER JOIN beneficiaries b ON b.id = m.beneficiary_id
+       LEFT JOIN projects p ON p.id = m.project_id
+       LEFT JOIN beneficiaries b ON b.id = m.beneficiary_id
        INNER JOIN material_units u ON u.id = m.unit_id
        WHERE m.id = ?
        LIMIT 1`,
@@ -47,12 +49,16 @@ class MaterialUsed extends BaseModel {
     return rows[0] || null;
   }
 
-  static async list({ limit, offset, beneficiary_id, category, search }) {
+  static async list({ limit, offset, project_id, beneficiary_id, category, search }) {
     const safeLimit = this.safeLimit(limit);
     const safeOffset = this.safeOffset(offset);
     const conditions = [];
     const params = [];
 
+    if (project_id) {
+      conditions.push("m.project_id = ?");
+      params.push(project_id);
+    }
     if (beneficiary_id) {
       conditions.push("m.beneficiary_id = ?");
       params.push(beneficiary_id);
@@ -62,15 +68,16 @@ class MaterialUsed extends BaseModel {
       params.push(category);
     }
     if (search) {
-      conditions.push("(m.material_name LIKE ? OR b.display_name LIKE ?)");
-      params.push(`%${search}%`, `%${search}%`);
+      conditions.push("(m.material_name LIKE ? OR p.title LIKE ? OR b.display_name LIKE ?)");
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
 
     const whereClause = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
     return query(
-      `SELECT m.*, b.display_name AS beneficiary_name, u.unit_name, u.unit_code
+      `SELECT m.*, p.title AS project_title, b.display_name AS beneficiary_name, u.unit_name, u.unit_code
        FROM materials_used m
-       INNER JOIN beneficiaries b ON b.id = m.beneficiary_id
+       LEFT JOIN projects p ON p.id = m.project_id
+       LEFT JOIN beneficiaries b ON b.id = m.beneficiary_id
        INNER JOIN material_units u ON u.id = m.unit_id
        ${whereClause}
        ORDER BY m.date_used DESC, m.id DESC
@@ -85,11 +92,12 @@ class MaterialUsed extends BaseModel {
 
     await query(
       `UPDATE materials_used
-       SET beneficiary_id = ?, material_name = ?, category = ?, quantity = ?, unit_id = ?,
+       SET project_id = ?, beneficiary_id = ?, material_name = ?, category = ?, quantity = ?, unit_id = ?,
            unit_cost = ?, currency = ?, date_used = ?, notes = ?
        WHERE id = ?`,
       [
-        payload.beneficiary_id !== undefined ? payload.beneficiary_id : existing.beneficiary_id,
+        payload.project_id !== undefined ? payload.project_id : existing.project_id,
+        payload.beneficiary_id !== undefined ? payload.beneficiary_id || null : existing.beneficiary_id,
         payload.material_name !== undefined ? payload.material_name : existing.material_name,
         payload.category !== undefined ? normalizeCategory(payload.category) : existing.category,
         payload.quantity !== undefined ? Math.max(Number(payload.quantity) || 0, 0) : existing.quantity,

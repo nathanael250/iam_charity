@@ -92,7 +92,8 @@ ON DUPLICATE KEY UPDATE
 -- =========================
 CREATE TABLE IF NOT EXISTS materials_used (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    beneficiary_id INT NOT NULL,
+    project_id INT NOT NULL,
+    beneficiary_id INT NULL,
     material_name VARCHAR(200) NOT NULL,
     category ENUM(
         'food',
@@ -116,9 +117,13 @@ CREATE TABLE IF NOT EXISTS materials_used (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
+    CONSTRAINT fk_materials_project
+        FOREIGN KEY (project_id) REFERENCES projects(id)
+        ON DELETE CASCADE,
+
     CONSTRAINT fk_materials_beneficiary
         FOREIGN KEY (beneficiary_id) REFERENCES beneficiaries(id)
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
 
     CONSTRAINT fk_materials_unit
         FOREIGN KEY (unit_id) REFERENCES material_units(id)
@@ -129,6 +134,7 @@ CREATE TABLE IF NOT EXISTS materials_used (
         ON DELETE SET NULL
 );
 
+-- CREATE INDEX idx_materials_project ON materials_used(project_id);
 -- CREATE INDEX idx_materials_beneficiary ON materials_used(beneficiary_id);
 -- CREATE INDEX idx_materials_category ON materials_used(category);
 -- CREATE INDEX idx_materials_unit ON materials_used(unit_id);
@@ -171,7 +177,8 @@ ON DUPLICATE KEY UPDATE
 -- =========================
 CREATE TABLE IF NOT EXISTS expenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    beneficiary_id INT NOT NULL,
+    project_id INT NOT NULL,
+    beneficiary_id INT NULL,
     expense_category_id INT NOT NULL,
     description VARCHAR(255) NOT NULL,
     amount DECIMAL(12,2) NOT NULL DEFAULT 0.00,
@@ -185,9 +192,13 @@ CREATE TABLE IF NOT EXISTS expenses (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
+    CONSTRAINT fk_expenses_project
+        FOREIGN KEY (project_id) REFERENCES projects(id)
+        ON DELETE CASCADE,
+
     CONSTRAINT fk_expenses_beneficiary
         FOREIGN KEY (beneficiary_id) REFERENCES beneficiaries(id)
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
 
     CONSTRAINT fk_expenses_category
         FOREIGN KEY (expense_category_id) REFERENCES expense_categories(id)
@@ -198,9 +209,29 @@ CREATE TABLE IF NOT EXISTS expenses (
         ON DELETE SET NULL
 );
 
+-- CREATE INDEX idx_expenses_project ON expenses(project_id);
 -- CREATE INDEX idx_expenses_beneficiary ON expenses(beneficiary_id);
 -- CREATE INDEX idx_expenses_category ON expenses(expense_category_id);
 -- CREATE INDEX idx_expenses_date ON expenses(expense_date);
+
+
+-- =========================
+-- EXISTING DATABASE MIGRATION NOTES
+-- =========================
+-- If these tables already existed with beneficiary_id as NOT NULL, update them manually before using
+-- the new frontend forms:
+--
+-- ALTER TABLE materials_used ADD COLUMN project_id INT NULL AFTER id;
+-- ALTER TABLE materials_used MODIFY beneficiary_id INT NULL;
+-- UPDATE materials_used SET project_id = <support_case_id> WHERE project_id IS NULL;
+-- ALTER TABLE materials_used MODIFY project_id INT NOT NULL;
+-- ALTER TABLE materials_used ADD CONSTRAINT fk_materials_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+--
+-- ALTER TABLE expenses ADD COLUMN project_id INT NULL AFTER id;
+-- ALTER TABLE expenses MODIFY beneficiary_id INT NULL;
+-- UPDATE expenses SET project_id = <support_case_id> WHERE project_id IS NULL;
+-- ALTER TABLE expenses MODIFY project_id INT NOT NULL;
+-- ALTER TABLE expenses ADD CONSTRAINT fk_expenses_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 
 -- =========================

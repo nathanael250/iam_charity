@@ -19,6 +19,7 @@ const MaterialUnit = require("../models/MaterialUnit");
 const MaterialUsed = require("../models/MaterialUsed");
 const ExpenseCategory = require("../models/ExpenseCategory");
 const Expense = require("../models/Expense");
+const SiteSetting = require("../models/SiteSetting");
 const { parsePagination, requireFields } = require("../utils/controllerHelpers");
 const BaseModel = require("../models/BaseModel");
 const HttpError = require("../utils/httpError");
@@ -87,6 +88,63 @@ const masterController = {
   },
   deleteAdmin: async (req, res) => {
     res.json({ success: true, data: await Admin.delete(req.params.id) });
+  },
+  getAdminProfile: async (req, res) => {
+    const admin = await Admin.findById(req.user?.sub);
+    if (!admin) throw new HttpError(404, "Admin profile not found");
+
+    res.json({
+      success: true,
+      data: {
+        id: admin.id,
+        full_name: admin.full_name,
+        email: admin.email,
+        role: admin.role,
+        status: admin.status,
+      },
+    });
+  },
+  updateAdminProfile: async (req, res) => {
+    requireFields(req.body, ["full_name", "email"]);
+    const admin = await Admin.update(req.user?.sub, {
+      full_name: String(req.body.full_name).trim(),
+      email: String(req.body.email).trim(),
+    });
+
+    res.json({
+      success: true,
+      data: {
+        id: admin.id,
+        full_name: admin.full_name,
+        email: admin.email,
+        role: admin.role,
+        status: admin.status,
+      },
+    });
+  },
+  updateAdminPassword: async (req, res) => {
+    requireFields(req.body, ["current_password", "new_password"]);
+    const admin = await Admin.findById(req.user?.sub);
+    if (!admin) throw new HttpError(404, "Admin profile not found");
+
+    const passwordResult = await verifyPassword(String(req.body.current_password), admin.password_hash);
+    if (!passwordResult.matches) throw new HttpError(401, "Current password is not correct");
+
+    const newPassword = String(req.body.new_password);
+    if (newPassword.length < 8) throw new HttpError(400, "New password must be at least 8 characters");
+
+    await Admin.updatePasswordHash(admin.id, await hashPassword(newPassword));
+    res.json({ success: true, data: { updated: true } });
+  },
+  getNotificationSettings: async (_req, res) => {
+    res.json({ success: true, data: await SiteSetting.getNotificationSettings() });
+  },
+  updateNotificationSettings: async (req, res) => {
+    requireFields(req.body, ["recipient_email"]);
+    res.json({
+      success: true,
+      data: await SiteSetting.updateNotificationSettings(req.body, req.user?.sub || null),
+    });
   },
 
   listProjects: async (req, res) => {
@@ -366,7 +424,7 @@ const masterController = {
     res.json({ success: true, data: await MaterialUsed.findById(req.params.id) });
   },
   createMaterialUsed: async (req, res) => {
-    requireFields(req.body, ["beneficiary_id", "material_name", "unit_id", "date_used"]);
+    requireFields(req.body, ["project_id", "material_name", "unit_id", "date_used"]);
     res.status(201).json({
       success: true,
       data: await MaterialUsed.create({ ...req.body, created_by: req.user?.sub || null }),
@@ -400,7 +458,7 @@ const masterController = {
     res.json({ success: true, data: await Expense.findById(req.params.id) });
   },
   createExpense: async (req, res) => {
-    requireFields(req.body, ["beneficiary_id", "expense_category_id", "description", "expense_date"]);
+    requireFields(req.body, ["project_id", "expense_category_id", "description", "expense_date"]);
     res.status(201).json({
       success: true,
       data: await Expense.create({ ...req.body, created_by: req.user?.sub || null }),

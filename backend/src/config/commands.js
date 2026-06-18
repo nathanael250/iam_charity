@@ -7,6 +7,11 @@ module.exports = {
   CREATE_ADMIN: "create_admin",
   UPDATE_ADMIN: "update_admin",
   DELETE_ADMIN: "delete_admin",
+  GET_ADMIN_PROFILE: "get_admin_profile",
+  UPDATE_ADMIN_PROFILE: "update_admin_profile",
+  UPDATE_ADMIN_PASSWORD: "update_admin_password",
+  GET_NOTIFICATION_SETTINGS: "get_notification_settings",
+  UPDATE_NOTIFICATION_SETTINGS: "update_notification_settings",
 
   LIST_PROJECTS: "list_projects",
   GET_PROJECT: "get_project",

@@ -16,14 +16,18 @@ import ProjectForm from "./pages/dashboard/ProjectForm";
 import Donations from "./pages/dashboard/Donations";
 import Volunteers from "./pages/dashboard/Volunteers";
 import ImpactUpdates from "./pages/dashboard/ImpactUpdates";
+import ResourceAnalytics from "./pages/dashboard/resources/ResourceAnalytics";
+import Beneficiaries from "./pages/dashboard/resources/Beneficiaries";
+import MaterialsUsed from "./pages/dashboard/resources/MaterialsUsed";
+import Expenses from "./pages/dashboard/resources/Expenses";
 import Messages from "./pages/dashboard/Messages";
 import Newsletter from "./pages/dashboard/Newsletter";
 import Cms from "./pages/dashboard/Cms";
-import Reports from "./pages/dashboard/Reports";
 import Settings from "./pages/dashboard/Settings";
 import Login from "./pages/dashboard/Login";
 import PageNotFound from "./pages/dashboard/PageNotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import BeneficiaryDetails from "./pages/dashboard/resources/BeneficiaryDetails";
 
 const App = () => {
   return (
@@ -34,13 +38,23 @@ const App = () => {
         <Route path="/needs/:slug" element={<NeedDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/activities" element={<Navigate to="/impact-stories" replace />} />
+        <Route
+          path="/activities"
+          element={<Navigate to="/impact-stories" replace />}
+        />
         <Route path="/impact-stories" element={<ImpactStoriesPage />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/donate" element={<Donate />} />
         <Route path="/volunteer" element={<Volunteer />} />
         <Route path="/admin/login" element={<Login />} />
-        <Route path="/admin" element={<ProtectedAdminRoute><DashboardLayout /></ProtectedAdminRoute>}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <DashboardLayout />
+            </ProtectedAdminRoute>
+          }
+        >
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="projects" element={<AdminProjects />} />
@@ -50,10 +64,15 @@ const App = () => {
           <Route path="donations" element={<Donations />} />
           <Route path="volunteers" element={<Volunteers />} />
           <Route path="impact-updates" element={<ImpactUpdates />} />
+          
+          <Route path="resources/analytics" element={<ResourceAnalytics />} />
+          <Route path="resources/beneficiaries" element={<Beneficiaries />} />
+          <Route path="resources/beneficiaries/:id" element={<BeneficiaryDetails />} />
+          <Route path="resources/materials" element={<MaterialsUsed />} />
+          <Route path="resources/expenses" element={<Expenses />} />
           <Route path="messages" element={<Messages />} />
           <Route path="newsletter" element={<Newsletter />} />
           <Route path="cms" element={<Cms />} />
-          <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
