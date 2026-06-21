@@ -464,7 +464,7 @@ const Volunteer = () => {
                       className="mt-1 accent-[#C9A84C]"
                     />
                     <span className="leading-5 text-on-surface-variant">
-                      I agree that I Am Group may contact me when there is a charity activity or volunteer opportunity.
+                      I agree that I AM Charity may contact me when there is a charity activity or volunteer opportunity.
                     </span>
                   </label>
 

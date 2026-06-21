@@ -143,9 +143,9 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       <aside className={`fixed inset-y-0 left-0 z-50 flex w-[272px] flex-col bg-[#071B36] text-white shadow-2xl transition-transform duration-300 ease-in-out lg:z-40 lg:w-[248px] lg:translate-x-0 lg:shadow-none ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-[88px] items-center gap-3 border-b border-white/10 px-5">
-          <img src={logo} alt="I Am Group Rwanda" className="h-14 w-14 rounded-lg bg-white object-contain p-1" />
+          <img src={logo} alt="I AM Charity Rwanda" className="h-14 w-14 rounded-lg bg-white object-contain p-1" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-lg font-extrabold leading-tight">I Am Group</p>
+            <p className="truncate text-lg font-extrabold leading-tight">I AM Charity</p>
             <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#D0A733]">Rwanda</p>
           </div>
           <button type="button" onClick={onClose} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 lg:hidden">

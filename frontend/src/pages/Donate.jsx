@@ -130,7 +130,7 @@ const Donate = () => {
                 <div className="mt-3 h-0.5 w-8 bg-[#C9A84C]" />
                 <h1 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight sm:text-4xl">Thank you for choosing to help.</h1>
                 <p className="mt-3 max-w-lg text-sm font-semibold leading-6 text-[#4F4B60]">
-                  Your mock donation has been recorded and is now visible to the I Am Group administration team.
+                  Your mock donation has been recorded and is now visible to the I AM Charity administration team.
                 </p>
               </div>
             </div>
@@ -153,7 +153,7 @@ const Donate = () => {
                   <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#C9A84C]">Your support</p>
                   <h2 className="mt-3 text-2xl font-extrabold leading-tight">{receipt.project_title || "General community support"}</h2>
                   <p className="mt-3 text-sm font-semibold leading-6 text-white/68">
-                    {campaign?.short_description || "This contribution helps I Am Group respond to urgent needs and provide practical support across Rwanda."}
+                    {campaign?.short_description || "This contribution helps I AM Charity respond to urgent needs and provide practical support across Rwanda."}
                   </p>
                   <Link to="/projects" className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#C9A84C]">
                     Explore people to support

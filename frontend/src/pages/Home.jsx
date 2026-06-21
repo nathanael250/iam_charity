@@ -154,7 +154,7 @@ const Home = () => {
                 Together, we serve with compassion and restore dignity.
               </h1>
               <p className="mt-4 max-w-[540px] text-sm font-semibold leading-6 text-white/82 sm:mt-5 sm:text-base sm:leading-8 [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:leading-7">
-                Join I Am Group in sharing God’s love through practical care and sustainable support for orphans, widows, the elderly, and people in need across Rwanda.
+                Join I AM Charity in sharing God’s love through practical care and sustainable support for orphans, widows, the elderly, and people in need across Rwanda.
               </p>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-7 sm:flex sm:gap-4 [@media(max-height:760px)]:mt-5">
                 <Link

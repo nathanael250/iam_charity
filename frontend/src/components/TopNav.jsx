@@ -54,10 +54,10 @@ const TopNav = () => {
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-[#EEE9DA] bg-white shadow-[0_4px_18px_rgba(17,14,47,0.04)]">
       <div className="container flex h-[78px] items-center justify-between gap-5">
-        <Link className="flex min-w-0 items-center gap-3" to="/" aria-label="I Am Group home">
-          <img className="h-14 w-14 shrink-0 object-contain" src={logo} alt="I Am Group logo" />
+        <Link className="flex min-w-0 items-center gap-3" to="/" aria-label="I AM Charity home">
+          <img className="h-14 w-14 shrink-0 object-contain" src={logo} alt="I AM Charity logo" />
           <div className="hidden leading-tight sm:block">
-            <p className="text-lg font-extrabold tracking-tight text-[#17142F]">I AM GROUP</p>
+            <p className="text-lg font-extrabold tracking-tight text-[#17142F]">I AM CHARITY</p>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#514E66]">Rwanda</p>
           </div>
         </Link>

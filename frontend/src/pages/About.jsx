@@ -88,7 +88,7 @@ const About = () => {
               <SectionTitle title="Who We Are" />
               <div className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#4F4B60] sm:mt-7 sm:space-y-6 sm:text-[15px] sm:leading-8">
                 <p>
-                  I Am Group is a Rwanda-based organization responding to the needs of orphans, widows, the elderly, and people in need through compassionate and practical action.
+                  I AM Charity is a Rwanda-based organization responding to the needs of orphans, widows, the elderly, and people in need through compassionate and practical action.
                 </p>
                 <p>
                   Our name reflects the biblical call, “Here am I. Send me,” and our commitment to answer that call by restoring dignity and empowering vulnerable lives.

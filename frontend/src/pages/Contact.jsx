@@ -106,7 +106,7 @@ const Contact = () => {
               <div className="mt-2 h-0.5 w-9 bg-[#C9A84C] sm:mt-4 sm:w-10" />
               <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:mt-5 sm:text-5xl">Let’s Connect</h1>
               <p className="mt-3 max-w-[520px] text-sm font-semibold leading-6 text-[#4F4B60] sm:mt-4 sm:text-base sm:leading-8">
-                Ask a question, discuss support, volunteer, or explore a partnership with I Am Group.
+                Ask a question, discuss support, volunteer, or explore a partnership with I AM Charity.
               </p>
             </div>
           </div>

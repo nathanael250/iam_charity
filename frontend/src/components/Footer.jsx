@@ -49,9 +49,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-5 gap-y-8 border-b border-white/10 pb-8 sm:gap-10 sm:pb-12 lg:grid-cols-[1.15fr_repeat(4,1fr)]">
           <div className="col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-3">
-              <img className="h-11 w-11 object-contain sm:h-14 sm:w-14" src={logo} alt="I Am Group logo" />
+              <img className="h-11 w-11 object-contain sm:h-14 sm:w-14" src={logo} alt="I AM Charity logo" />
               <div className="leading-tight">
-                <p className="text-base font-extrabold">I Am Group</p>
+                <p className="text-base font-extrabold">I AM Charity</p>
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#C9A84C]">Here am I. Send me.</p>
               </div>
             </Link>
@@ -86,7 +86,7 @@ export default function Footer() {
           ))}
         </div>
         <p className="py-5 text-center text-[10px] font-semibold text-white/38 sm:py-7 sm:text-xs">
-          © {new Date().getFullYear()} I Am Group. All rights reserved.
+          © {new Date().getFullYear()} I AM Charity. All rights reserved.
         </p>
       </div>
     </footer>

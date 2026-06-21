@@ -14,7 +14,7 @@ const stories = [
     beforeDesc: "A leaking two-room structure with poor sanitation and no privacy for the children.",
     afterDesc: "A stable four-room home with safety, dignity, and enough space for the family to live well.",
     story:
-      "The Mukamana family had lived for years in a cramped shelter that could not protect them from rain or illness. Support from I Am Group made it possible to rebuild their home and restore a sense of safety for every child in the family.",
+      "The Mukamana family had lived for years in a cramped shelter that could not protect them from rain or illness. Support from I AM Charity made it possible to rebuild their home and restore a sense of safety for every child in the family.",
     turningPoint:
       "The rebuilding process gave the family more than walls and roofing. It gave them structure, confidence, and a place where school, rest, and daily life could happen with dignity.",
     stats: [
@@ -30,7 +30,7 @@ const stories = [
     location: "Kicukiro District, Kigali",
     year: "Housed in 2024",
     quote:
-      "My husband passed away and I was left with four children and no shelter. I Am Group rebuilt our home and also helped me find work. We are not just surviving. We are living.",
+      "My husband passed away and I was left with four children and no shelter. I AM Charity rebuilt our home and also helped me find work. We are not just surviving. We are living.",
     beforeImage: beforeImg,
     afterImage: afterImg,
     beforeDesc: "An unstable mud house on flood-prone ground with no electricity and no secure living conditions.",

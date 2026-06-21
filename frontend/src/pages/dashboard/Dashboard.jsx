@@ -386,7 +386,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <p className="py-8 text-center text-sm font-semibold text-[#7A8190]">I Am Group Rwanda administration dashboard</p>
+      <p className="py-8 text-center text-sm font-semibold text-[#7A8190]">I AM Charity Rwanda administration dashboard</p>
     </div>
   );
 };
