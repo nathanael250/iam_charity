@@ -138,25 +138,25 @@ const Home = () => {
     <div className="min-h-screen bg-white text-[#17142F]">
       <TopNav />
       <main className="pt-[78px]">
-        <section className="relative min-h-[570px] overflow-hidden bg-[#131129] text-white sm:min-h-[700px]">
+        <section className="relative min-h-[calc(100svh-78px)] overflow-hidden bg-[#131129] text-white sm:min-h-[min(700px,calc(100svh-78px))] lg:min-h-[min(700px,calc(100svh-78px))]">
           <img
             src={helloSectionImage}
             alt="Family standing near a home under construction"
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#131129] via-[#131129]/88 via-65% to-[#131129]/12" />
-          <div className="container relative z-10 flex min-h-[570px] items-center py-10 sm:min-h-[700px] sm:py-16">
+          <div className="container relative z-10 flex min-h-[calc(100svh-78px)] items-center py-8 sm:min-h-[min(700px,calc(100svh-78px))] sm:py-12 lg:min-h-[min(700px,calc(100svh-78px))] lg:py-14 [@media(max-height:760px)]:items-start [@media(max-height:760px)]:pt-12">
             <div className="max-w-[650px]">
               <span className="inline-flex rounded-md bg-[#C9A84C] px-3 py-1.5 text-xs font-extrabold text-white shadow-lg shadow-black/20 sm:text-sm">
                 Here am I. Send me.
               </span>
-              <h1 className="mt-5 max-w-[620px] text-[34px] font-extrabold leading-tight tracking-normal sm:mt-7 sm:text-5xl lg:text-[64px]">
+              <h1 className="mt-5 max-w-[620px] text-[34px] font-extrabold leading-tight tracking-normal sm:mt-6 sm:text-5xl lg:text-[clamp(48px,4.4vw,64px)] [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:text-[clamp(42px,4vw,54px)]">
                 Together, we serve with compassion and restore dignity.
               </h1>
-              <p className="mt-4 max-w-[540px] text-sm font-semibold leading-6 text-white/82 sm:mt-6 sm:text-base sm:leading-8">
+              <p className="mt-4 max-w-[540px] text-sm font-semibold leading-6 text-white/82 sm:mt-5 sm:text-base sm:leading-8 [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:leading-7">
                 Join I Am Group in sharing God’s love through practical care and sustainable support for orphans, widows, the elderly, and people in need across Rwanda.
               </p>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:flex sm:gap-4">
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-7 sm:flex sm:gap-4 [@media(max-height:760px)]:mt-5">
                 <Link
                   to="/donate"
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-[#D0A733] px-3 py-3 text-xs font-extrabold text-white shadow-xl shadow-black/20 transition hover:bg-[#bd9525] sm:px-6 sm:py-4 sm:text-sm"

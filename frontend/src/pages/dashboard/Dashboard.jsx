@@ -271,7 +271,33 @@ const Dashboard = () => {
           action={<Link to="/admin/donations" className="text-sm font-extrabold text-[#C48609]">View all</Link>}
         >
           {computed.donations.length ? (
-            <div className="overflow-x-auto">
+            <>
+            <div className="space-y-3 sm:hidden">
+              {computed.donations.map((donation) => (
+                <article key={donation.id} className="rounded-lg border border-[#EEF1F5] bg-[#FBFCFE] p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate font-extrabold text-[#07142D]">
+                        {donation.is_anonymous ? "Anonymous" : donation.donor_name || "Anonymous"}
+                      </p>
+                      <p className="mt-1 text-xs font-semibold text-[#687083]">{formatDate(donation.created_at)}</p>
+                    </div>
+                    <p className="shrink-0 text-sm font-extrabold text-[#07142D]">
+                      {formatMoney(donation.amount, donation.currency || "USD")}
+                    </p>
+                  </div>
+                  <div className="mt-3 flex items-start justify-between gap-3">
+                    <p className="line-clamp-2 min-w-0 text-sm font-semibold leading-5 text-[#536078]">
+                      {donation.project_title || "General support"}
+                    </p>
+                    <span className={`shrink-0 rounded-md px-3 py-1 text-xs font-extrabold capitalize ${statusClasses[donation.payment_status] || statusClasses.pending}`}>
+                      {donation.payment_status || "pending"}
+                    </span>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="hidden overflow-x-auto sm:block">
               <table className="w-full min-w-[620px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-[#E7EAF0] text-[#07142D]">
@@ -297,6 +323,7 @@ const Dashboard = () => {
                 </tbody>
               </table>
             </div>
+            </>
           ) : (
             <EmptyState icon="volunteer_activism" title="No donations yet" text="Completed and pending donations will appear here." />
           )}
