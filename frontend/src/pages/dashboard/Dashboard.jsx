@@ -34,8 +34,6 @@ const formatDate = (date) => {
   }).format(new Date(date));
 };
 
-const getTimestamp = (item) => new Date(item.created_at || 0).getTime();
-
 const MetricCard = ({ item }) => (
   <article className={`flex items-center gap-4 rounded-lg border border-[#E2E6EE] bg-gradient-to-br ${item.tint} p-4 shadow-sm sm:block sm:rounded-xl sm:p-6`}>
     <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg sm:h-14 sm:w-14 sm:rounded-xl ${item.iconBg} ${item.iconText}`}>
@@ -172,47 +170,6 @@ const Dashboard = () => {
     const totalDonations = completedDonations.reduce((sum, donation) => sum + Number(donation.amount || 0), 0);
     const approvedVolunteers = volunteers.filter((volunteer) => volunteer.status === "approved").length;
 
-    const activities = [
-      ...donations.map((donation) => ({
-        id: `donation-${donation.id}`,
-        created_at: donation.created_at,
-        icon: "favorite",
-        bg: "bg-[#E7F7E8]",
-        color: "text-[#43A047]",
-        title: `${formatMoney(donation.amount, donation.currency || "USD")} donation received`,
-        text: donation.project_title || "General support",
-      })),
-      ...volunteers.map((volunteer) => ({
-        id: `volunteer-${volunteer.id}`,
-        created_at: volunteer.created_at,
-        icon: "person_add",
-        bg: "bg-[#EAF3FF]",
-        color: "text-[#2F7DCE]",
-        title: "Volunteer registration",
-        text: volunteer.full_name || "New volunteer",
-      })),
-      ...messages.map((message) => ({
-        id: `message-${message.id}`,
-        created_at: message.created_at,
-        icon: "mail",
-        bg: "bg-[#FFF2D9]",
-        color: "text-[#D0A733]",
-        title: "Contact message received",
-        text: message.subject || `Message from ${message.full_name}`,
-      })),
-      ...subscribers.map((subscriber) => ({
-        id: `subscriber-${subscriber.id}`,
-        created_at: subscriber.created_at,
-        icon: "mark_email_read",
-        bg: "bg-[#F2E8FF]",
-        color: "text-[#7E57C2]",
-        title: "Newsletter subscription",
-        text: subscriber.email,
-      })),
-    ]
-      .sort((a, b) => getTimestamp(b) - getTimestamp(a))
-      .slice(0, 5);
-
     return {
       metrics: [
         { ...metricStyles[0], value: String(counts.active), label: "Active needs", detail: `${projects.length} total support cases` },
@@ -222,7 +179,6 @@ const Dashboard = () => {
       ],
       counts,
       donations: donations.slice(0, 5),
-      activities,
       topProjects: projects
         .slice()
         .sort((a, b) => Number(b.progress || 0) - Number(a.progress || 0))
@@ -265,7 +221,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="mt-5 grid gap-5 sm:mt-6 sm:gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <div className="mt-5 sm:mt-6">
         <Card
           title="Recent Donations"
           action={<Link to="/admin/donations" className="text-sm font-extrabold text-[#C48609]">View all</Link>}
@@ -326,27 +282,6 @@ const Dashboard = () => {
             </>
           ) : (
             <EmptyState icon="volunteer_activism" title="No donations yet" text="Completed and pending donations will appear here." />
-          )}
-        </Card>
-
-        <Card title="Recent Activity">
-          {computed.activities.length ? (
-            <div className="space-y-3 sm:space-y-4">
-              {computed.activities.map((activity) => (
-                <div key={activity.id} className="grid grid-cols-[40px_1fr] gap-3 border-b border-[#EEF1F5] pb-3 last:border-0 last:pb-0 sm:grid-cols-[44px_1fr] sm:gap-4 sm:pb-4">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-full sm:h-11 sm:w-11 ${activity.bg} ${activity.color}`}>
-                    <span className="material-symbols-outlined text-[22px] sm:text-[23px]">{activity.icon}</span>
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-extrabold text-[#07142D]">{activity.title}</p>
-                    <p className="mt-1 truncate text-sm font-semibold text-[#536078]">{activity.text}</p>
-                    <p className="mt-1 text-xs font-semibold text-[#8A92A1]">{formatDate(activity.created_at)}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <EmptyState title="No activity yet" text="New donations, volunteers, messages, and subscribers will appear here." />
           )}
         </Card>
       </div>
