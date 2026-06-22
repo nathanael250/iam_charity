@@ -19,8 +19,8 @@ const contactDetails = [
     title: "Call Us",
     content: (
       <>
-        <a className="block hover:text-[#C49B2E]" href="tel:+250788123456">+250 788 123 456</a>
-        <a className="block hover:text-[#C49B2E]" href="tel:+250789987654">+250 789 987 654</a>
+        <a className="block hover:text-[#C49B2E]" href="tel:+250788123456">+250 788 869 973</a>
+        {/* <a className="block hover:text-[#C49B2E]" href="tel:+250789987654">+250 788 869 973</a> */}
       </>
     ),
   },
@@ -145,7 +145,7 @@ const Contact = () => {
                         <option value="+257">BI +257</option>
                         <option value="+243">CD +243</option>
                       </select>
-                      <input name="phone" value={form.phone} onChange={updateField} type="tel" inputMode="tel" className="h-12 min-w-0 rounded-lg border border-[#DDDDE3] bg-white px-3 text-xs font-semibold outline-none focus:border-[#C9A84C] sm:text-sm" placeholder="788 123 456" />
+                      <input name="phone" value={form.phone} onChange={updateField} type="tel" inputMode="tel" className="h-12 min-w-0 rounded-lg border border-[#DDDDE3] bg-white px-3 text-xs font-semibold outline-none focus:border-[#C9A84C] sm:text-sm" placeholder="7XXXXXXXX" />
                     </div>
                   </label>
                   <label className="text-xs font-extrabold sm:text-sm">
